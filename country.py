@@ -15,11 +15,5 @@ class Country():
         self.regions+=regions
         
         
-    def prints(self):
-        print(self.name)
-        print(self.color)
-        print(self.regions)
-        print("\n\n")
-        
 if __name__ == "__main__":
     c = Country((1024,768), "bobonia", (255,128,64, 255))

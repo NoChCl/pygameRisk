@@ -69,7 +69,7 @@ for i, region in enumerate(regions):
         print("bad region") 
         print(region)
         regions.remove(region)
-        
+'''        
 for country in countryObjects:
     try:
         for c in country.regions:
@@ -85,7 +85,7 @@ for country in countryObjects:
         print("\nremoved",str(region))
         print("\n\n") 
         regions.remove(region)
-
+'''
 
 
 
@@ -93,10 +93,7 @@ for country in countryObjects:
 
 for w in countryObjects:
     if w.regions == []:
-        w.remove()
-    else:
-        w.prints()
-
+        countryObjects.remove(w)
 
 
 while True:
