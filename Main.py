@@ -1,7 +1,7 @@
 #test'n
 import pygame, sys, math, random
 from countryinfo import *
-from country import *
+from Country import *
 
 works=False
 while not works:
