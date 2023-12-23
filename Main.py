@@ -2,7 +2,7 @@ import pygame, sys, math, random
 from countryinfo import *
 from country import *
 from Game import *
-from infoSecreen import *
+#from infoScreen import *
 
 pygame.init()
 size = [1440, 720]
@@ -24,7 +24,8 @@ while not works:
 countryObjects=getInfo(size)
 #stuffnstuff.close()
 
-
+font = pygame.font.Font(None, 32)
+selectedCountry=None
 
 LEFT=False
 RIGHT=False
@@ -65,8 +66,22 @@ while True:
     
     
     screen.fill([30,144,255])
+    
+    
+    
+    
     for i, country in enumerate(countryObjects):
         for x in country.regions:
             pygame.draw.polygon(screen, country.color, x)
             pygame.draw.polygon(screen, [0, 0, 0,255], x, 1)
+        
+            
+    
+    pygame.draw.rect(screen, [255, 255, 255],(0,540,300,220))
+    text = font.render("Country:"+str(selectedCountry), True, (10, 10, 10))
+    textpos = text.get_rect(x=10, y=550)
+    screen.blit(text, textpos)
+            
+            
+            
     pygame.display.flip()
