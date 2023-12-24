@@ -54,17 +54,46 @@ def action(countries, action):
 	
 	
 	
-def getInfo(size):
+def getInfo(size, screen):
+	font = pygame.font.Font(None, 32)
+
 	countryObjects=[]
 	names = []
 	c = CountryInfo()
 	c = c.all()
 	for key in c:
 		names += [key]
-
+	l=[0,20]
 	for name in names:
+		screen.fill([30,144,255])
+		screen.blit(pygame.image.load("risk.png"), [(size[0]/2)-233, 100])
+		pygame.draw.rect(screen, [255, 255, 255],((size[0]/2)-236,374,470,22), 1)
+		l[0]+=2
+		load=pygame.Surface(l)
+		screen.blit(load, [(size[0]/2)-235,375])
+		
+		for event in pygame.event.get():
+			if event.type==pygame.QUIT:
+				sys.exit()
+
+		
+		try:
+			text = font.render("Added: "+str(name[0].upper()+name[1:-1]+name[-1]), True, (10, 10, 10))
+		except:
+			text = font.render("Added: Other", True, (10, 10, 10))
+		textpos = [(size[0]/2)-233, 400]
+		screen.blit(text, textpos)
+		
+		pygame.display.flip()
+
+		
+		
 		c = CountryInfo(name)
-		countryObjects+=[Country(size, name)]
+		try:
+			cont=c.region()
+		except:
+			cont=None
+		countryObjects+=[Country(size, name, cont)]
 		try:
 			countries = [c.geo_json()]
 			country = countries[0]["features"][0]["geometry"]["coordinates"]
@@ -73,8 +102,7 @@ def getInfo(size):
 					countryObjects[-1].addRegions([country[i][0]])
 				else:
 					countryObjects[-1].addRegions([country[i]])
-			print("added", name)
-		except Exception as e:
+		except:
 			pass
 
 	for country in countryObjects:

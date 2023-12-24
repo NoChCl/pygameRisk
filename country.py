@@ -3,13 +3,13 @@ from countryinfo import *
 
 
 class Country():
-    def __init__(self, size, name):
+    def __init__(self, size, name, cont):
         self.name=name
         
         saCountrys = "Argentina, Bolivia, Brazil, Chile, Colombia, Ecuador, Guyana, Paraguay, Peru, Suriname, Uruguay, Venezuela, French Guiana, trinidad and tobago, falkland islands"
         
         try:
-            self.contenent=CountryInfo(name).region()
+            self.contenent=cont
             if self.contenent.lower() == "americas":
                 if self.name.lower() in saCountrys.lower():
                     self.contenent="South America"
@@ -36,14 +36,15 @@ class Country():
         self.size = size
         self.troops = 0
         self.controled = ""
-        self.image= pygame.Surface(self.size, flags=pygame.SRCALPHA)
+        #self.image= pygame.Surface(self.size, flags=pygame.SRCALPHA)
+        #self.rect = self.image.get_rect()
         self.regions = []
-        self.mask = pygame.mask.from_surface(self.image)
+        #self.mask = pygame.mask.from_surface(self.image)
         
     
     def addRegions(self, regions):
         self.regions+=regions
-        
+
         
     def update(self):
         pass
