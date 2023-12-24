@@ -4,6 +4,7 @@ from country import *
 from Game import *
 #from infoScreen import *
 
+#pygame init and other important init's
 pygame.init()
 size = [1440, 720]
 screen = pygame.display.set_mode(size)
@@ -21,24 +22,27 @@ while not works:
         stuffnstuff=open("Countrys.info","x")
         stuffnstuff.write(str(getInfo(size)))'''
 
-#print(getInfo(size))
-
+#makes all country objects
 countryObjects=getInfo(size, screen)
-#stuffnstuff.close()
 
+#makes a country actualy be selected
 selectedCountry=countryObjects[1]
 
+#mouse mask
 mouse=pygame.Surface([1,1])
 mouseMask=pygame.mask.from_surface(mouse)
 
+#made zoom variable
 zoom=1
 
-
+#made left right up and down vars
 LEFT=False
 RIGHT=False
 UP=False
 DOWN=False
+
 while True:
+	#get events
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
             sys.exit()
@@ -68,29 +72,25 @@ while True:
             if  event.key == pygame.K_RIGHT:
                 RIGHT=False
     
+    #moving the countrys
     if UP:countryObjects=action(countryObjects, "moveU")
     if DOWN:countryObjects=action(countryObjects, "moveD")
     if LEFT:countryObjects=action(countryObjects, "moveL")
     if RIGHT:countryObjects=action(countryObjects, "moveR")
 
-
+	#get mouse pos
     mousePos=pygame.mouse.get_pos()
 
     
-    
+    #put things on screen
     screen.fill([30,144,255])
-    
-    
-    
-    
+
     for i, country in enumerate(countryObjects):
         for x in country.regions:
             pygame.draw.polygon(screen, country.color, x)
             pygame.draw.polygon(screen, [0, 0, 0,255], x, 1)
         
-    
     #updateScreen(selectedCountry, screen)
-            
             
     pygame.display.flip()
     clock.tick(60)
