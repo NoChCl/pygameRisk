@@ -39,6 +39,7 @@ class Country():
         self.image= pygame.Surface(self.size, flags=pygame.SRCALPHA)
         self.regions = []
         self.mask = pygame.mask.from_surface(self.image)
+        
     
     def addRegions(self, regions):
         self.regions+=regions

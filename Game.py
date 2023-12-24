@@ -8,19 +8,20 @@ def action(countries, action):
 		for country in countries:
 			for region in country.regions:
 				for c in region:
-					'''c[1]-=720/2
-					c[0]-=1440/2'''
 					c[0] *=1.25
 					c[1] *=1.25
+					c[1]-=720/8
+					c[0]-=1440/8
 	
 	elif action == "-":
 		for country in countries:
 			for region in country.regions:
 				for c in region:
+					c[0]+=1440/8
+					c[1]+=720/8
 					c[0] /=1.25
 					c[1] /=1.25
-					'''c[0]+=1440/2
-					c[1]+=720/2'''
+
 	
 	if action == "moveL":
 		for country in countries:

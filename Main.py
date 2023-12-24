@@ -8,6 +8,8 @@ pygame.init()
 size = [1440, 720]
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("RISK", icontitle="RISK")
+clock = pygame.time.Clock();
+
 '''
 works=False
 while not works:
@@ -24,8 +26,9 @@ while not works:
 countryObjects=getInfo(size)
 #stuffnstuff.close()
 
-font = pygame.font.Font(None, 32)
-selectedCountry=None
+selectedCountry=countryObjects[1]
+
+zoom=1
 
 LEFT=False
 RIGHT=False
@@ -37,9 +40,12 @@ while True:
             sys.exit()
         if event.type == pygame.KEYDOWN:
             if  event.key == pygame.K_w:
+                zoom+=1
                 countryObjects=action(countryObjects, "+")
             if  event.key == pygame.K_s:
-                countryObjects=action(countryObjects, "-")
+                if 1<= zoom:
+                    zoom-=1
+                    countryObjects=action(countryObjects, "-")
             if  event.key == pygame.K_UP:
                 UP=True
             if  event.key == pygame.K_DOWN:
@@ -78,10 +84,30 @@ while True:
             
     
     pygame.draw.rect(screen, [255, 255, 255],(0,540,300,220))
-    text = font.render("Country:"+str(selectedCountry), True, (10, 10, 10))
+    
+    font = pygame.font.Font(None, 32)
+    try:
+        text = font.render("Country: "+str(selectedCountry.name[0].upper()+selectedCountry.name[1:-1]+selectedCountry.name[-1]), True, (10, 10, 10))
+    except:
+        text = font.render("Country: None Selected", True, (10, 10, 10))
     textpos = text.get_rect(x=10, y=550)
+    screen.blit(text, textpos)
+    
+    font = pygame.font.Font(None, 25)
+    try:
+        text = font.render("Troops: "+str(selectedCountry.troops), True, (10, 10, 10))
+    except:
+        text=font.render("Troops: N/A", True, (10, 10, 10))
+    textpos = text.get_rect(x=10, y=575)
+    screen.blit(text, textpos)
+            
+    try:
+        text = font.render("Controled By: "+str(selectedCountry.controled), True, (10, 10, 10))
+    except:
+        text=font.render("Controled By: N/A", True, (10, 10, 10))
+    textpos = text.get_rect(x=10, y=595)
     screen.blit(text, textpos)
             
             
-            
     pygame.display.flip()
+    clock.tick(60)
