@@ -45,6 +45,7 @@ class Country():
         except:
 			#in the imposible case that fails, contenent is none, and color is completely random
             self.contenent = None
+            print("!!!", cont, "is unrecognised")
             self.color = [random.randint(0,255),random.randint(0,255),random.randint(0,255), 255]
         
         #size is size
@@ -54,10 +55,27 @@ class Country():
         #starts uncontroled
         self.controled = ""
         
-        #self.image= pygame.Surface(self.size, flags=pygame.SRCALPHA)
-        #self.rect = self.image.get_rect()
-        
         self.regions = []
+        regions = CountryInfo(name).geo_json()["features"][0]["geometry"]["coordinates"]
+        for i, region in enumerate(regions): 
+            if len(regions) < 2:
+                self.regions += regions[i][0]
+            else:
+                self.regions += regions[i]
+            
+        for region in self.regions:
+            for n in region:
+                n[0] += 180
+                n[0] *= 4
+                n[1] *= -1
+                n[1] += 90
+                n[1] *= 4
+            
+        self.image = pygame.Surface(self.size, flags=pygame.SRCALPHA)
+        for region in self.regions:
+            pygame.draw.polygon(self.image, self.color, region)
+            pygame.draw.polygon(screen, [0, 0, 0,255], region, 1)
+        self.rect = self.image.get_rect()
         
         #self.mask = pygame.mask.from_surface(self.image)
         
@@ -71,4 +89,24 @@ class Country():
         
         
 if __name__ == "__main__":
-    c = Country((1024,768), "bobonia", (255,128,64, 255))
+    pygame.init()
+    size = [1440, 720]
+    screen = pygame.display.set_mode(size)
+    pygame.display.set_caption("RISK")
+    clock = pygame.time.Clock();
+    
+    c = Country((1024,768), "united states of america", "americas")
+    
+    while True:
+        #get events
+        for event in pygame.event.get():
+            if event.type==pygame.QUIT:
+                sys.exit()
+         
+            
+        screen.fill([30,144,255])
+        screen.blit(c.image, c.rect)
+        pygame.display.flip()
+        clock.tick(60)
+    
+    

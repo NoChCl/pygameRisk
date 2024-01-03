@@ -8,7 +8,7 @@ from Game import *
 pygame.init()
 size = [1440, 720]
 screen = pygame.display.set_mode(size)
-pygame.display.set_caption("RISK", icontitle="RISK")
+pygame.display.set_caption("RISK")
 clock = pygame.time.Clock();
 
 '''
