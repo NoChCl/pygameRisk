@@ -77,7 +77,7 @@ class Country():
             pygame.draw.polygon(screen, [0, 0, 0,255], region, 1)
         self.rect = self.image.get_rect()
         
-        #self.mask = pygame.mask.from_surface(self.image)
+        self.mask = pygame.mask.from_surface(self.image)
         
     
     def addRegions(self, regions):
