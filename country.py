@@ -3,16 +3,19 @@ from countryinfo import *
 
 
 class Country():
-    def __init__(self, size, name, cont):
+    def __init__(self, size, name, debug = False):
+        if debug: print(name) 
         self.name=name
+        self.info = CountryInfo(name)
+        self.contenent = self.info.region()
         
         #list of South Amarican Countrys,
         #liberary only seperates as "amarica's" not North/South
         #saCountrys is a list of south amarican countrys so that one can seperate the contenents
         saCountrys = "Argentina, Bolivia, Brazil, Chile, Colombia, Ecuador, Guyana, Paraguay, Peru, Suriname, Uruguay, Venezuela, French Guiana, trinidad and tobago, falkland islands"
         
+        
         try:
-            self.contenent=cont
             #if amarican contenent
             if self.contenent.lower() == "americas":
 				#if contenent is South Amarican
@@ -44,8 +47,8 @@ class Country():
                 self.color = [random.randint(100,255),random.randint(0,50),random.randint(100,255), 255]
         except:
 			#in the imposible case that fails, contenent is none, and color is completely random
+            print("!!!", self.contenent, "is unrecognised")
             self.contenent = None
-            print("!!!", cont, "is unrecognised")
             self.color = [random.randint(0,255),random.randint(0,255),random.randint(0,255), 255]
         
         #size is size
@@ -56,14 +59,32 @@ class Country():
         self.controled = ""
         
         self.regions = []
-        regions = CountryInfo(name).geo_json()["features"][0]["geometry"]["coordinates"]
-        for i, region in enumerate(regions): 
-            if len(regions) < 2:
-                self.regions += regions[i][0]
+        
+        regions = self.info.geo_json()["features"][0]["geometry"]["coordinates"]
+        
+        
+        if debug: 
+            print(len(regions))
+            for region in regions:
+                print(region)
+                print("--------------", len(region))
+        if len(regions) == 1:
+            if (name == "sweden"):
+                self.regions += [regions[0][0]]
             else:
-                self.regions += regions[i]
-            
+                self.regions += [regions[0]]
+        elif len(regions) > 1:
+            for i, region in enumerate(regions): 
+                if len(region) == 1:
+                    self.regions += region
+                else:
+                    self.regions += [region]
+        else:
+            print("wtf mate, you got's no regions...are you even a country??")
+        
+           
         for region in self.regions:
+            
             for n in region:
                 n[0] += 180
                 n[0] *= 4
@@ -74,19 +95,17 @@ class Country():
         self.image = pygame.Surface(self.size, flags=pygame.SRCALPHA)
         for region in self.regions:
             pygame.draw.polygon(self.image, self.color, region)
-            pygame.draw.polygon(screen, [0, 0, 0,255], region, 1)
+            pygame.draw.polygon(self.image, [0, 0, 0,255], region, 1)
         self.rect = self.image.get_rect()
         
         self.mask = pygame.mask.from_surface(self.image)
-        
-    
-    def addRegions(self, regions):
-        self.regions+=regions
 
         
     def update(self):
         pass
         
+    def move(self, speed):
+        self.rect = self.rect.move(speed)
         
 if __name__ == "__main__":
     pygame.init()
@@ -95,7 +114,9 @@ if __name__ == "__main__":
     pygame.display.set_caption("RISK")
     clock = pygame.time.Clock();
     
-    c = Country((1024,768), "united states of america", "americas")
+    cs = [Country((1024,768), "united states of america", True),
+          Country((1024,768), "american samoa", True),
+          Country((1024,768), "germany", True)]
     
     while True:
         #get events
@@ -105,7 +126,8 @@ if __name__ == "__main__":
          
             
         screen.fill([30,144,255])
-        screen.blit(c.image, c.rect)
+        for c in cs:
+            screen.blit(c.image, c.rect)
         pygame.display.flip()
         clock.tick(60)
     

@@ -71,6 +71,9 @@ while True:
                 LEFT=False
             if  event.key == pygame.K_RIGHT:
                 RIGHT=False
+                
+        if event.type == pygame.MOUSEMOTION:
+            mousePos = event.pos
     
     #moving the countrys
     if UP:countryObjects=action(countryObjects, "moveU")
@@ -78,17 +81,14 @@ while True:
     if LEFT:countryObjects=action(countryObjects, "moveL")
     if RIGHT:countryObjects=action(countryObjects, "moveR")
 
-	#get mouse pos
-    mousePos=pygame.mouse.get_pos()
+
 
     
     #put things on screen
     screen.fill([30,144,255])
 
-    for i, country in enumerate(countryObjects):
-        for x in country.regions:
-            pygame.draw.polygon(screen, country.color, x)
-            pygame.draw.polygon(screen, [0, 0, 0,255], x, 1)
+    for country in countryObjects:
+        screen.blit(country.image, country.rect)
         
     #updateScreen(selectedCountry, screen)
             
