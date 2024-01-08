@@ -15,12 +15,16 @@ clock = pygame.time.Clock();
 works=False
 while not works:
     try:
-        stuffnstuff=open("Countrys.info","r")
+        loadFromFile=open("Countrys.info","r")
         works=True
     except:
         works=False
-        stuffnstuff=open("Countrys.info","x")
-        stuffnstuff.write(str(getInfo(size)))'''
+        loadFromFile=open("Countrys.info","x")
+        loadFromFile.write(str(getInfo(size)))
+countryObjects=loadFromFile.read()
+loadFromFile.close()
+'''
+
 
 #makes all country objects
 countryObjects=getInfo(size, screen)
@@ -90,7 +94,7 @@ while True:
     for country in countryObjects:
         screen.blit(country.image, country.rect)
         
-    #updateScreen(selectedCountry, screen)
+    updateScreen(selectedCountry, screen)
             
     pygame.display.flip()
-    clock.tick(60)
+    #clock.tick(60)

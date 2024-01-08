@@ -35,15 +35,11 @@ def action(countries, action):
     #move up
     elif action == "moveU":
         for country in countries:
-            for region in country.regions:
-                for c in region:
-                    c[1] +=10
+            country.move([0,10])
     #move down
     elif action == "moveD":
         for country in countries:
-            for region in country.regions:
-                for c in region:
-                    c[1] -=10
+            country.move([0,-10])
     
     return countries
     
@@ -96,11 +92,11 @@ def getInfo(size, screen):
             pass
         
 
-    #Sweden just doesn't work, so why let it?
-    for country in countryObjects:
-        if country.name == "sweden":
-            countryObjects.remove(country)
-            break
+    # ~ #Sweden just doesn't work, so why let it?
+    # ~ for country in countryObjects:
+        # ~ if country.name == "sweden":
+            # ~ countryObjects.remove(country)
+            # ~ break
 
     
     return countryObjects
