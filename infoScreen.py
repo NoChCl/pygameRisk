@@ -27,3 +27,9 @@ def updateScreen(selectedCountry, screen):
     textpos = text.get_rect(x=10, y=595)
     screen.blit(text, textpos)
     
+    try:
+        text = font.render("Borders: "+str(selectedCountry.borders), True, (10, 10, 10))
+    except:
+        text=font.render("Borders: N/A", True, (10, 10, 10))
+    textpos = text.get_rect(x=10, y=615)
+    screen.blit(text, textpos)

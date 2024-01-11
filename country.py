@@ -9,6 +9,10 @@ class Country():
         self.info = CountryInfo(name)
         self.contenent = self.info.region()
         
+        try:
+            self.borders = self.info.borders()
+        except:
+            self.borders = None
         #list of South Amarican Countrys,
         #liberary only seperates as "amarica's" not North/South
         #saCountrys is a list of south amarican countrys so that one can seperate the contenents
@@ -106,6 +110,17 @@ class Country():
         
     def move(self, speed):
         self.rect = self.rect.move(speed)
+        
+    def __str__(self):
+        s=self.name
+        s+=":"
+        s+=str(self.contenent)
+        s+=":"
+        s+= str(self.size)
+        s+=":"
+        s+=str(self.regions)
+        s+="\n"
+        return s
         
 if __name__ == "__main__":
     pygame.init()
