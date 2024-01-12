@@ -1,6 +1,6 @@
 import pygame, sys, math, random
 from countryinfo import *
-from country import *
+from Country import *
 from Game import *
 from infoScreen import *
 
@@ -138,8 +138,6 @@ while True:
     if LEFT and not shift:countryObjects=action(countryObjects, "moveL")
     if RIGHT and not shift:countryObjects=action(countryObjects, "moveR")
 
-
-    w=0
     
     #put things on screen
     screen.fill([30,144,255])
@@ -151,9 +149,6 @@ while True:
 
     for country in countryObjects:
         screen.blit(country.image, country.rect)
-        w+=1
-        if w == 30:
-            break
         
     updateScreen(selectedCountry, screen)
             

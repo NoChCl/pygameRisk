@@ -88,15 +88,40 @@ class Country():
         
            
         for region in self.regions:
-            
             for n in region:
                 n[0] += 180
                 n[0] *= 4
                 n[1] *= -1
                 n[1] += 90
                 n[1] *= 4
+        big=[0,0]
+        bign=10000000000
+        small=[bign,bign]
+        for region in self.regions:
+            for point in region:
+                if point[0]<small[0]:
+                    small[0]=point[0]
+                if point[0]>big[0]:
+                    big[0]=point[0]
+                    
+                if point[1]<small[1]:
+                    small[1]=point[1]
+                if point[1]>big[1]:
+                    big[1]=point[1]
             
-        self.image = pygame.Surface(self.size, flags=pygame.SRCALPHA)
+        small[0]-=10
+        big[0]+=10
+        small[1]-=10
+        big[1]+=10
+        if big[0]<small[0] or big[1]<small[1]:
+            print(self.name, small, big)
+            
+        screenSize=[big[0]-small[0], big[1]-small[1]]
+            
+        self.image = pygame.Surface(big, flags=pygame.SRCALPHA)
+        #r=self.image.get_rect()
+        #r.move(small)
+        
         for region in self.regions:
             pygame.draw.polygon(self.image, self.color, region)
             pygame.draw.polygon(self.image, [0, 0, 0,255], region, 1)
@@ -130,7 +155,7 @@ if __name__ == "__main__":
     clock = pygame.time.Clock();
     
     cs = [Country((1024,768), "united states of america", True),
-          Country((1024,768), "american samoa", True),
+          #Country((1024,768), "american samoa", True),
           Country((1024,768), "germany", True)]
     
     while True:
