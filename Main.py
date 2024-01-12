@@ -139,20 +139,23 @@ while True:
     if RIGHT and not shift:countryObjects=action(countryObjects, "moveR")
 
 
-
+    w=0
     
     #put things on screen
     screen.fill([30,144,255])
     
     if debug:
-        text = font.render("FPS: "+str(clock.get_fps()), True, (255/2, 255/2, 255/2))
+        text = font.render("FPS: "+str(clock.get_fps()), True, ((255/2)-40, (255/2)-40, (255/2)-40))
         textpos = text.get_rect(x=1380, y=0)
         screen.blit(text, textpos)
 
     for country in countryObjects:
         screen.blit(country.image, country.rect)
+        w+=1
+        if w == 30:
+            break
         
     updateScreen(selectedCountry, screen)
             
     pygame.display.flip()
-    clock.tick(60)
+    clock.tick(150)
