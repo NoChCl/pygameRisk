@@ -10,6 +10,8 @@ size = [1440, 720]
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("RISK")
 clock = pygame.time.Clock();
+font = pygame.font.Font(None, 16)
+
 
 '''
 works=False
@@ -50,6 +52,7 @@ zoomOut=False
 
 debug = False
 
+t=0
 
 while True:
     #get events
@@ -152,4 +155,4 @@ while True:
     updateScreen(selectedCountry, screen)
             
     pygame.display.flip()
-    #clock.tick(60)
+    clock.tick(60)
