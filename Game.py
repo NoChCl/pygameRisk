@@ -1,6 +1,6 @@
 import pygame, random
 from countryinfo import *
-from Country import *
+from country import *
 
 
 def action(countries, action):

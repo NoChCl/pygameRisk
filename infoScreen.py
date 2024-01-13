@@ -1,5 +1,5 @@
 import pygame
-from Country import *
+from country import *
 
 def updateScreen(selectedCountry, screen):
     pygame.draw.rect(screen, [255, 255, 255],(0,540,300,220))

@@ -117,8 +117,13 @@ class Country():
             print(self.name, small, big)
             
         screenSize=[big[0]-small[0], big[1]-small[1]]
+        
+        for region in self.regions:
+            for point in region:
+                point[0]-=small[0]
+                point[1]-=small[1]
             
-        self.image = pygame.Surface(big, flags=pygame.SRCALPHA)
+        self.image = pygame.Surface(screenSize, flags=pygame.SRCALPHA)
         #r=self.image.get_rect()
         #r.move(small)
         
@@ -126,6 +131,8 @@ class Country():
             pygame.draw.polygon(self.image, self.color, region)
             pygame.draw.polygon(self.image, [0, 0, 0,255], region, 1)
         self.rect = self.image.get_rect()
+        
+        self.rect = self.rect.move(small)
         
         self.mask = pygame.mask.from_surface(self.image)
 

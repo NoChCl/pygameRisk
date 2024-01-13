@@ -1,6 +1,6 @@
 import pygame, sys, math, random
 from countryinfo import *
-from Country import *
+from country import *
 from Game import *
 from infoScreen import *
 
@@ -153,4 +153,4 @@ while True:
     updateScreen(selectedCountry, screen)
             
     pygame.display.flip()
-    clock.tick(150)
+    clock.tick(60)
