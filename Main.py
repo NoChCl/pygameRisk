@@ -35,6 +35,7 @@ countryObjects=getInfo(size, screen)
 selectedCountry=countryObjects[1]
 
 # ~ #mouse mask
+mousePos=pygame.mouse.get_pos()
 mouse=pygame.Surface([1,1])
 mouseMask=pygame.mask.from_surface(mouse)
 
@@ -52,6 +53,7 @@ zoomOut=False
 
 debug = False
 
+
 t=0
 
 while True:
@@ -60,7 +62,7 @@ while True:
         if event.type==pygame.QUIT:
             sys.exit()
         if event.type == pygame.MOUSEMOTION:
-            mousePos = event.pos
+            mousePos = pygame.mouse.get_pos()
         if event.type == pygame.KEYDOWN:
             if  event.key == pygame.K_w:
                 UP=True
@@ -129,7 +131,7 @@ while True:
         UP=False
         DOWN =UP  
         
-
+    
     
     
     #moving the countrys
@@ -138,6 +140,10 @@ while True:
     if LEFT and not shift:countryObjects=action(countryObjects, "moveL")
     if RIGHT and not shift:countryObjects=action(countryObjects, "moveR")
 
+    for country in countryObjects:
+        if country.mask.overlap(mouseMask, (mousePos[0]-country.rect.x, mousePos[1]-country.rect.y)):
+            selectedCountry=country
+            break
     
     #put things on screen
     screen.fill([30,144,255])

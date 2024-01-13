@@ -7,21 +7,13 @@ def action(countries, action):
     #zoom in
     if action == "+":
         for country in countries:
-            for region in country.regions:
-                for c in region:
-                    c[0] *=1.25
-                    c[1] *=1.25
-                    c[1]-=720/8
-                    c[0]-=1440/8
+            pass
+            #country.image = pygame.transform.scale_by(country.image, (2))
     #zoom out
     elif action == "-":
         for country in countries:
-            for region in country.regions:
-                for c in region:
-                    c[0]+=1440/8
-                    c[1]+=720/8
-                    c[0] /=1.25
-                    c[1] /=1.25
+            pass
+            #country.image = pygame.transform.scale_by(country.image, (1/2))
 
     #move left
     if action == "moveL":
