@@ -53,6 +53,9 @@ zoomOut=False
 
 debug = False
 
+leftMouseDown=False
+
+select=False
 
 t=0
 
@@ -63,6 +66,9 @@ while True:
             sys.exit()
         if event.type == pygame.MOUSEMOTION:
             mousePos = pygame.mouse.get_pos()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if pygame.mouse.get_pressed()[0]:
+                leftMouseDown=True
         if event.type == pygame.KEYDOWN:
             if  event.key == pygame.K_w:
                 UP=True
@@ -139,12 +145,41 @@ while True:
     if DOWN and not shift:countryObjects=action(countryObjects, "moveD")
     if LEFT and not shift:countryObjects=action(countryObjects, "moveL")
     if RIGHT and not shift:countryObjects=action(countryObjects, "moveR")
-
-    for country in countryObjects:
-        if country.mask.overlap(mouseMask, (mousePos[0]-country.rect.x, mousePos[1]-country.rect.y)):
-            selectedCountry=country
-            break
     
+    if select and leftMouseDown:
+        onCountry=False
+        for country in countryObjects:
+            if country.mask.overlap(mouseMask, (mousePos[0]-country.rect.x, mousePos[1]-country.rect.y)):
+                selectedCountry=country
+                onCountry=True
+                break
+        if not onCountry:
+            selectedCountry=None
+            select=False
+    elif leftMouseDown:
+        onCountry=False
+        for country in countryObjects:
+            if country.mask.overlap(mouseMask, (mousePos[0]-country.rect.x, mousePos[1]-country.rect.y)):
+                selectedCountry=country
+                onCountry=True
+                select=True
+                break
+        if not onCountry:
+            selectedCountry=None
+            select=False
+    elif not select and not leftMouseDown:
+        onCountry=False
+        for country in countryObjects:
+            if country.mask.overlap(mouseMask, (mousePos[0]-country.rect.x, mousePos[1]-country.rect.y)):
+                selectedCountry=country
+                onCountry=True
+                break
+        if not onCountry:
+            selectedCountry=None
+            select=False
+        
+    leftMouseDown=False
+            
     #put things on screen
     screen.fill([30,144,255])
     

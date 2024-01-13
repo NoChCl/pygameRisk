@@ -69,9 +69,9 @@ def getInfo(size, screen):
 
         #more loading screen
         try:
-            text = font.render("Added: "+str(name[0].upper()+name[1:-1]+name[-1]), True, (10, 10, 10))
+            text = font.render("Adding: "+str(name[0].upper()+name[1:-1]+name[-1]), True, (10, 10, 10))
         except:
-            text = font.render("Added: Other", True, (10, 10, 10))
+            text = font.render("Adding: Other", True, (10, 10, 10))
         textpos = [(size[0]/2)-233, 400]
         screen.blit(text, textpos)
         
