@@ -142,7 +142,6 @@ class Country():
         
     def move(self, speed):
         self.rect = self.rect.move(speed)
-        self.mask = pygame.mask.from_surface(self.image)
         
     def __str__(self):
         s=self.name
