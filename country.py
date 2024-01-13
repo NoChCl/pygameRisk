@@ -135,6 +135,11 @@ class Country():
         self.rect = self.rect.move(small)
         
         self.mask = pygame.mask.from_surface(self.image)
+        
+        for region in self.regions:
+            for point in region:
+                point[0]+=small[0]
+                point[1]+=small[1]
 
         
     def update(self):
