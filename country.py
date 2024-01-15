@@ -84,7 +84,7 @@ class Country():
                 else:
                     self.regions += [region]
         else:
-            print("wtf mate, you got's no regions...are you even a country??")
+            print("ummm mate, you got's no regions...are you even a country??")
         
            
         for region in self.regions:
