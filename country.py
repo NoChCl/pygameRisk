@@ -13,6 +13,8 @@ class Country():
             self.borders = self.info.borders()
         except:
             self.borders = None
+            
+            
         #list of South Amarican Countrys,
         #liberary only seperates as "amarica's" not North/South
         #saCountrys is a list of south amarican countrys so that one can seperate the contenents
@@ -147,6 +149,68 @@ class Country():
         
     def move(self, speed):
         self.rect = self.rect.move(speed)
+        
+    def zoom(self, direction):
+        if direction =="-":
+            for region in self.regions:
+                for point in region:
+                    point[0]/=1.25
+                    point[1]/=1.25
+        if direction =="+":
+            for region in self.regions:
+                for point in region:
+                    #point[0]-=self.size[0]/2
+                    point[0]*=1.25
+                    #point[1]-=self.size[1]/2
+                    point[1]*=1.25
+
+        
+        big=[0,0]
+        bign=10000000000
+        small=[bign,bign]
+        for region in self.regions:
+            for point in region:
+                if point[0]<small[0]:
+                    small[0]=point[0]
+                if point[0]>big[0]:
+                    big[0]=point[0]
+                    
+                if point[1]<small[1]:
+                    small[1]=point[1]
+                if point[1]>big[1]:
+                    big[1]=point[1]
+            
+        small[0]-=10
+        big[0]+=10
+        small[1]-=10
+        big[1]+=10
+        if big[0]<small[0] or big[1]<small[1]:
+            print(self.name, small, big)
+            
+        screenSize=[big[0]-small[0], big[1]-small[1]]
+        
+        for region in self.regions:
+            for point in region:
+                point[0]-=small[0]
+                point[1]-=small[1]
+            
+        self.image = pygame.Surface(screenSize, flags=pygame.SRCALPHA)
+        #r=self.image.get_rect()
+        #r.move(small)
+        
+        for region in self.regions:
+            pygame.draw.polygon(self.image, self.color, region)
+            pygame.draw.polygon(self.image, [0, 0, 0,255], region, 1)
+        self.rect = self.image.get_rect()
+        
+        self.rect = self.rect.move(small)
+        
+        self.mask = pygame.mask.from_surface(self.image)
+        
+        for region in self.regions:
+            for point in region:
+                point[0]+=small[0]
+                point[1]+=small[1]
         
     def __str__(self):
         s=self.name

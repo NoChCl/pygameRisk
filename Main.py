@@ -183,15 +183,17 @@ while True:
     #put things on screen
     screen.fill([30,144,255])
     
-    if debug:
-        text = font.render("FPS: "+str(clock.get_fps()), True, ((255/2)-40, (255/2)-40, (255/2)-40))
-        textpos = text.get_rect(x=1380, y=0)
-        screen.blit(text, textpos)
 
     for country in countryObjects:
         screen.blit(country.image, country.rect)
         
     updateScreen(selectedCountry, screen)
+            
+    if debug:
+        text = font.render("FPS: "+str(clock.get_fps()), True, ((255/2)-40, (255/2)-40, (255/2)-40))
+        textpos = text.get_rect(x=1380, y=0)
+        screen.blit(text, textpos)
+            
             
     pygame.display.flip()
     clock.tick(100000)

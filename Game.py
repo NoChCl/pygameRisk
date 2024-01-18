@@ -1,18 +1,100 @@
-import pygame, random
+import pygame, sys, math, random
 from countryinfo import *
 from country import *
+from Game import *
+from infoScreen import *
+from Player import *
+from Neutral import *
+
+class Game():
+    def __init__(self, players, gameType, countryObjects):
+        
+        countrys=countryObjects
+        
+        self.players=players
+        
+        numbPlayers=len(self.players)
+        n=[]
+        if gameType=="neutral":
+            count=0
+            while len(countrys)>0:
+                count+=1
+                if count<=3:
+                    for player in self.players:
+                        if len(countrys)==0:
+                            break
+                        player.countrys+=[countrys.pop(random.randint(0,(len(countrys)-1)))]
+                if len(countrys)==0:
+                    break
+                n+=[Neutral(countrys.pop(random.randint(0,(len(countrys)-1))))]
+            self.players+=n
+        elif gameType=="random":
+            while len(countrys)>0:
+                for player in self.players:
+                    if len(countrys)==0:
+                        break
+                    elif len(countrys)==1:
+                        player.countrys+=[countrys.pop(0)]
+                    else:
+                        player.countrys+=[countrys.pop(random.randint(0,(len(countrys)-1)))]
+            
+        
+        
+        
+
+if __name__ == "__main__":
+    #pygame init and other important init's
+    pygame.init()
+    size = [1440, 720]
+    screen = pygame.display.set_mode(size)
+    pygame.display.set_caption("RISK")
+    clock = pygame.time.Clock();
+    font = pygame.font.Font(None, 16)
+
+    # ~ #makes all country objects
+    countryObjects=getInfo(size, screen)
+    
+    players=[]
+    for i in range(5):
+        players+=[Player(str(i))]
+        
+    game = Game(players, "random", countryObjects)
+    
+    players=game.players
+    
+    for player in players:
+        print("--------------------------------")
+        print(player)
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def action(countries, action):
     #zoom in
     if action == "+":
         for country in countries:
-            pass
-            #country.image = pygame.transform.scale_by(country.image, (2))
+            country.zoom("+")
     #zoom out
     elif action == "-":
         for country in countries:
-            pass
+            country.zoom("-")
+
             #country.image = pygame.transform.scale_by(country.image, (1/2))
 
     #move left
