@@ -8,9 +8,9 @@ Game start: 2 options-
         
     2: All players start with 3(?) countrys(tbd), all other counteries are "neutral" countries
         def neutral country:
-            country that WILL NOT attack you, but will act as a normal player and defend with 2(?) dice when attacked
+            country that WILL NOT attack you, but will act as a normal player and and will start with 2(?) defending troops when attacked
 
-Order for turns IN ALL ASPECTS OF GAME. will be alphebetical by color/team name
+Order for turns IN ALL ASPECTS OF GAME will be alphebetical by color/team name
 
 ------------------------------------------------------------
 Most rules from here out should be normal per a game of risk
