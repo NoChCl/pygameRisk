@@ -10,7 +10,8 @@ Game start: 2 options-
         
     2: All players start with 3(?) countrys(tbd), all other counteries are "neutral" countries
         def neutral country:
-            country that WILL NOT attack you, but will act as a normal player and and will start with 2(?) defending troops when attacked
+            Neutral player is a country that WILL NOT attack you, but will act as a normal player 
+            Neutral player will start with 2(?) defending troops when attacked
 
 Order for turns IN ALL ASPECTS OF GAME will be alphebetical by color/team name
 
