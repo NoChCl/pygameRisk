@@ -24,16 +24,21 @@ Game Loop:
         
         Phase 1: troop placement:
             player is provided with info on number of troops given to them at the begining of a turn
-            Player is also provided with info on other countrys current troops, (maybe also potental troops???? (big maybe))
+            Player is also provided with info on other countrys current troops
+                (maybe also potental troops???? (big maybe))
             Player should, as always, be provided with a number of troops anc countries that player owns.
             With above info in mind, Player may place troops in any country that player owns.
-            Player may also choose to retract troops that are in a country, as long as they are troops placed down on this current turn.
+            Player may also choose to retract troops that are in a country, as long as:
+                they are troops placed down on this current turn.
             
             Once Player is happy, Player may then select to proceede to the next phase.
             The above is a non revesable thing.
         Phase 2: Attack phase:
             Player may select any of players country that has more than 1 troops in it
-            The player may select the country of any oposing player, this country must be touching the first selected country of the current player, or any specal exception
+            The player may select the country of any oposing player
+            said country must be touching either:
+                the first selected country of the current player
+                or any specal exception
             
             if numb troops in the oposing country is <=2
                 notify player 2 that they are being attacked
@@ -70,17 +75,21 @@ Game Loop:
             if opposing country has 0 troops:
                 owner of oposing country no longer has that country
                 player now owns oposing country, add it to country list
-                add number of dice rolled by player against oposing counrty to opposing country, from attacking country
+                add number of dice rolled by player against oposing counrty to opposing country
+                    from attacking country
                 Ask how many more, must be at least 1 left in attacking country
                 
             In any case, player is free to repeat from the top of the attack phase
-            Player may also chose to move to next phase, again, like placing phase, once you move on, you cant move back
+            Player may also chose to move to next phase, again, like placing phase
+                once you move on, you cant move back
             
             Buuuuuuuuuuuuuuuut..... NO. NO NO NO NO NO NO AND N0
             
         Phase 3: Movement:
             Player may select any one country that player owns
-            player may select any number of troops, as long as they are in that country, and there will be one left after movement
+            player may select any number of troops, as long as 
+                they are in that country
+                and there will be one left after movement
             player may select any adjacent country owned by player
             all steps proceding this step are reversable
             
