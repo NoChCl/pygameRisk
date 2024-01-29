@@ -142,6 +142,7 @@ class Country():
             for point in region:
                 point[0]+=small[0]
                 point[1]+=small[1]
+        self.pos=[0,0]
 
         
     def update(self):
@@ -149,20 +150,26 @@ class Country():
         
     def move(self, speed):
         self.rect = self.rect.move(speed)
+        self.pos[0]+=speed[0]
+        self.pos[1]+=speed[1]
         
     def zoom(self, direction):
         if direction =="-":
             for region in self.regions:
                 for point in region:
                     point[0]/=1.25
+                    self.pos[0]*=1.25
                     point[1]/=1.25
+                    self.pos[1]*=1.25
         if direction =="+":
             for region in self.regions:
                 for point in region:
                     #point[0]-=self.size[0]/2
                     point[0]*=1.25
+                    self.pos[0]/=1.25
                     #point[1]-=self.size[1]/2
                     point[1]*=1.25
+                    self.pos[1]/=1.25
 
         
         big=[0,0]
@@ -211,6 +218,8 @@ class Country():
             for point in region:
                 point[0]+=small[0]
                 point[1]+=small[1]
+        self.move(self.pos)
+        
         
     def __str__(self):
         s=self.name

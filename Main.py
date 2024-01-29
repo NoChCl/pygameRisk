@@ -1,7 +1,8 @@
 import pygame, sys, math, random
 from countryinfo import *
-from country import *
+from Country import *
 from Game import *
+from Menu import *
 from infoScreen import *
 
 #pygame init and other important init's
@@ -12,6 +13,7 @@ pygame.display.set_caption("RISK")
 clock = pygame.time.Clock();
 font = pygame.font.Font(None, 16)
 
+menu(size, screen)
 
 '''
 works=False
@@ -26,6 +28,7 @@ while not works:
 countryObjects=loadFromFile.read()
 loadFromFile.close()
 '''
+
 
 
 # ~ #makes all country objects
@@ -187,7 +190,7 @@ while True:
     for country in countryObjects:
         screen.blit(country.image, country.rect)
         
-    updateScreen(selectedCountry, screen)
+    #updateScreen(selectedCountry, screen)
             
     if debug:
         text = font.render("FPS: "+str(clock.get_fps()), True, ((255/2)-40, (255/2)-40, (255/2)-40))

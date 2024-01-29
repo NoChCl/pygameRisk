@@ -1,4 +1,7 @@
 # Plan for Pygame Risk
+-Note, this game requires the liberaries pygame, and countryInfo.
+-This program will not run properly without them.
+
 
 Game start: 2 options-
     

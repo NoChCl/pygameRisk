@@ -1,5 +1,5 @@
 import pygame
-from country import *
+from Country import *
 
 
 class Neutral:

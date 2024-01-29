@@ -1,6 +1,6 @@
 import pygame, sys, math, random
 from countryinfo import *
-from country import *
+from Country import *
 from Game import *
 from infoScreen import *
 from Player import *
@@ -66,19 +66,6 @@ if __name__ == "__main__":
         print("--------------------------------")
         print(player)
     
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
