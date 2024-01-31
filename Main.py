@@ -190,7 +190,7 @@ while True:
     for country in countryObjects:
         screen.blit(country.image, country.rect)
         
-    #updateScreen(selectedCountry, screen)
+    updateScreen(selectedCountry, screen)
             
     if debug:
         text = font.render("FPS: "+str(clock.get_fps()), True, ((255/2)-40, (255/2)-40, (255/2)-40))
