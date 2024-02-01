@@ -38,6 +38,10 @@ class Game():
                     else:
                         player.countrys+=[countrys.pop(random.randint(0,(len(countrys)-1)))]
             
+            
+            for player in self.players:
+                for country in player.countrys:
+                    country.controled=player.name
         
         
         

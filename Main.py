@@ -13,7 +13,7 @@ pygame.display.set_caption("RISK")
 clock = pygame.time.Clock();
 font = pygame.font.Font(None, 16)
 
-menu(size, screen)
+#menu(size, screen)
 
 '''
 works=False

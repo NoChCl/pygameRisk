@@ -53,6 +53,29 @@ def menu(size, screen):
         
     equalButton=menuObject(selEqualImage,[370,450])
     
+    
+    #Select
+    selImage=pygame.Surface([700,75])
+    selImage.fill([125,140,140])
+    
+    font = pygame.font.Font(None, 80)
+    text = font.render("Select Game", True, (10, 10, 10))
+    textpos = text.get_rect(x=350-(294/2), y=10)
+    selImage.blit(text, textpos)
+        
+    selectButton=menuObject(selImage,[370,350])
+    
+    #Random
+    randomImage=pygame.Surface([700,75])
+    randomImage.fill([125,140,140])
+    
+    font = pygame.font.Font(None, 80)
+    text = font.render("Random Game", True, (10, 10, 10))
+    textpos = text.get_rect(x=350-(294/2), y=10)
+    randomImage.blit(text, textpos)
+        
+    randomButton=menuObject(randomImage,[370,450])
+    
     #quitGame
     quitImage=pygame.Surface([700,75])
     quitImage.fill([125,140,140])
@@ -122,6 +145,35 @@ def menu(size, screen):
                     if leftMouseDown:
                         if backArrow.clicked(mousePos):
                             newGame=False
+                        if equalButton.clicked(mousePos):
+                            Equal=True
+                            
+                            while Equal:
+                                leftMouseDown=False
+                                screen.fill([30,144,255])
+                                screen.blit(pygame.image.load("menuBg.png"), (0,0))
+                                for event in pygame.event.get():
+                                    if event.type == pygame.MOUSEMOTION:
+                                        mousePos = pygame.mouse.get_pos()
+                                    if event.type == pygame.MOUSEBUTTONDOWN:
+                                        if pygame.mouse.get_pressed()[0]:
+                                            leftMouseDown=True
+                                    if event.type==pygame.QUIT:
+                                        sys.exit()
+                                    if event.type == pygame.MOUSEMOTION:
+                                        mousePos = pygame.mouse.get_pos()
+                                    if event.type == pygame.MOUSEBUTTONDOWN:
+                                        if pygame.mouse.get_pressed()[0]:
+                                            leftMouseDown=True
+                                if leftMouseDown:
+                                    if backArrow.clicked(mousePos):
+                                        Equal=False
+                                screen.blit(backArrow.image, backArrow.rect)
+                                screen.blit(selectButton.image, neutralButton.rect)
+                                screen.blit(randomButton.image, equalButton.rect)
+                                
+                                pygame.display.flip()
+                            
                     
                     screen.blit(backArrow.image, backArrow.rect)
                     screen.blit(neutralButton.image, neutralButton.rect)
@@ -129,15 +181,18 @@ def menu(size, screen):
                     
                     pygame.display.flip()
                     
-                    
-        
         screen.blit(quitButton.image, quitButton.rect)
-        
         screen.blit(loadGameButton.image, loadGameButton.rect)
-        
         screen.blit(newGameButton.image, newGameButton.rect)
-                    
+        
         pygame.display.flip()
+        
+        
+
+        
+        
+        
+        
         
 class menuObject():
     def __init__(self, image, pos):
