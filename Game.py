@@ -153,6 +153,7 @@ def getInfo(size, screen):
         
         try:
             countryObjects+=[Country(size, name)]
+            countryObjects[-1].picklePrep()
         except:
             pass
         

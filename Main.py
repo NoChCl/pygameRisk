@@ -1,4 +1,4 @@
-import pygame, sys, math, random
+import pygame, sys, math, random, pickle
 from countryinfo import *
 from Country import *
 from Game import *
@@ -15,24 +15,27 @@ font = pygame.font.Font(None, 16)
 
 #menu(size, screen)
 
-'''
+
 works=False
 while not works:
     try:
-        loadFromFile=open("Countrys.info","r")
+        loadFromFile=pickle.load(open("Countrys.info","rb"))
         works=True
-    except:
+    except Exception as e:
+        print(e)
         works=False
-        loadFromFile=open("Countrys.info","x")
-        loadFromFile.write(str(getInfo(size)))
-countryObjects=loadFromFile.read()
-loadFromFile.close()
-'''
+        countryData = getInfo(size, screen)
+        pickle.dump(countryData, open( "Countrys.info", "wb" ) )
+
+countryObjects=loadFromFile
+#loadFromFile.close()
+for country in countryObjects:
+    country.unpickle()
 
 
 
 # ~ #makes all country objects
-countryObjects=getInfo(size, screen)
+#countryObjects=getInfo(size, screen)
 
 # ~ #makes a country actualy be selected
 selectedCountry=countryObjects[1]

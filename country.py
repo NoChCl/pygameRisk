@@ -1,4 +1,4 @@
-import pygame, sys, math, random
+import pygame, sys, math, random, pickle
 from countryinfo import *
 
 
@@ -118,14 +118,27 @@ class Country():
         if big[0]<small[0] or big[1]<small[1]:
             print(self.name, small, big)
             
-        screenSize=[big[0]-small[0], big[1]-small[1]]
+        self.screenSize=[big[0]-small[0], big[1]-small[1]]
         
         for region in self.regions:
             for point in region:
                 point[0]-=small[0]
                 point[1]-=small[1]
-            
-        self.image = pygame.Surface(screenSize, flags=pygame.SRCALPHA)
+        self.small = small
+        self.big = big    
+        
+        
+        
+       
+        self.pos=[0,0]
+
+    def picklePrep(self):
+        #self.image = pygame.image.tobytes(self.image)
+        pass
+        
+    def unpickle(self):
+        #self.image = pygame.image.frombytes(self.image)
+        self.image = pygame.Surface(self.screenSize, flags=pygame.SRCALPHA)
         #r=self.image.get_rect()
         #r.move(small)
         
@@ -134,17 +147,16 @@ class Country():
             pygame.draw.polygon(self.image, [0, 0, 0,255], region, 1)
         self.rect = self.image.get_rect()
         
-        self.rect = self.rect.move(small)
+        self.rect = self.rect.move(self.small)
         
         self.mask = pygame.mask.from_surface(self.image)
         
         for region in self.regions:
             for point in region:
-                point[0]+=small[0]
-                point[1]+=small[1]
-        self.pos=[0,0]
-
+                point[0]+=self.small[0]
+                point[1]+=self.small[1]
         
+    
     def update(self):
         pass
         
@@ -239,10 +251,23 @@ if __name__ == "__main__":
     pygame.display.set_caption("RISK")
     clock = pygame.time.Clock();
     
-    cs = [Country((1024,768), "united states of america", True),
-          #Country((1024,768), "american samoa", True),
-          Country((1024,768), "germany", True)]
+    us = Country((1024,768), "united states of america", False)
     
+    works=False
+    while not works:
+        try:
+            loadFromFile=pickle.load(open("test.info","rb"))
+            us = loadFromFile
+            us.unpickle()
+            works=True
+            print("Loaded")
+        except Exception as e:
+            print(e)
+            print("Creating File")
+            works=False
+            #countryData = getInfo(size, screen)
+            pickle.dump(us, open( "test.info", "wb" ) )
+    #pickle.dump(us, open( "test.info", "wb" ) )
     while True:
         #get events
         for event in pygame.event.get():
@@ -251,8 +276,7 @@ if __name__ == "__main__":
          
             
         screen.fill([30,144,255])
-        for c in cs:
-            screen.blit(c.image, c.rect)
+        screen.blit(us.image, us.rect)
         pygame.display.flip()
         clock.tick(60)
     
