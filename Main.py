@@ -5,6 +5,11 @@ from Game import *
 from Menu import *
 from infoScreen import *
 
+
+import faulthandler
+faulthandler.enable()
+
+
 #pygame init and other important init's
 pygame.init()
 size = [1440, 720]
@@ -80,8 +85,9 @@ while True:
                 leftMouseDown=True
         if event.type == pygame.KEYDOWN:
             if  event.key == pygame.K_w:
+                if 11>= zoom:
+                    zoomIn=True
                 UP=True
-                zoomIn=True
             if  event.key == pygame.K_a:
                 LEFT=True
             if  event.key == pygame.K_s:
@@ -132,6 +138,7 @@ while True:
 
     if zoomIn and shift:
         zoom+=1
+        print(zoom)
         countryObjects=action(countryObjects, "+")
         zoomIn=False
         
@@ -179,7 +186,6 @@ while True:
     elif not select and not leftMouseDown:
         onCountry=False
         for country in countryObjects:
-            print(mousePos, country.rect.center)
             if country.mask.overlap(mouseMask, (mousePos[0]-country.rect.x, mousePos[1]-country.rect.y)):
                 selectedCountry=country
                 onCountry=True
