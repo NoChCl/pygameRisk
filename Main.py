@@ -138,7 +138,6 @@ while True:
 
     if zoomIn and shift:
         zoom+=1
-        print(zoom)
         countryObjects=action(countryObjects, "+")
         zoomIn=False
         
