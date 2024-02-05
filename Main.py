@@ -15,6 +15,9 @@ font = pygame.font.Font(None, 16)
 
 #menu(size, screen)
 
+screen.fill([30,144,255])
+screen.blit(pygame.image.load("risk.png"), [(size[0]/2)-233, 100])
+pygame.display.flip()
 
 works=False
 while not works:
@@ -27,10 +30,9 @@ while not works:
         countryData = getInfo(size, screen)
         pickle.dump(countryData, open( "Countrys.info", "wb" ) )
 
-countryObjects=loadFromFile
-#loadFromFile.close()
-for country in countryObjects:
-    country.unpickle()
+countryObjects=decode(loadFromFile, screen, size)
+
+
 
 
 
