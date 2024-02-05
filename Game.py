@@ -115,8 +115,7 @@ def action(countries, action):
     
     
 def getInfo(size, screen):
-    
-    font = pygame.font.Font(None, 32)
+    font = pygame.font.Font(None, 16)
     
     countryObjects=[]
     names = []
@@ -125,6 +124,12 @@ def getInfo(size, screen):
     for key in c:
         names += [key]
     l=[0,20]
+    
+    Itext = font.render("Inital load, this may take a while...", True, (10, 10, 10))
+    Itextpos = [(size[0]/2)-233, 425]
+
+    font = pygame.font.Font(None, 32)
+
     for name in names:
         
         #loading screen
@@ -134,6 +139,8 @@ def getInfo(size, screen):
         l[0]+=2
         load=pygame.Surface(l)
         screen.blit(load, [(size[0]/2)-235,375])
+        
+        screen.blit(Itext, Itextpos)
         
         #quit on quit
         for event in pygame.event.get():
@@ -199,12 +206,3 @@ def decode(countryObjects, screen, size):
     
     return countryObjects
     
-def returnList(S):
-    L=[]
-    
-    for i, s in enumerate(S):
-        if s=="]":
-            return L
-        elif s=="[":
-            l+=returnList(S[i:-1])
-        

@@ -230,7 +230,7 @@ class Country():
             for point in region:
                 point[0]+=small[0]
                 point[1]+=small[1]
-        self.move(self.pos)
+        #self.move(self.pos)
         
         
     def __str__(self):

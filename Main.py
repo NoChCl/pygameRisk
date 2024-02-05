@@ -15,12 +15,13 @@ font = pygame.font.Font(None, 16)
 
 #menu(size, screen)
 
-screen.fill([30,144,255])
-screen.blit(pygame.image.load("risk.png"), [(size[0]/2)-233, 100])
-pygame.display.flip()
+
 
 works=False
 while not works:
+    screen.fill([30,144,255])
+    screen.blit(pygame.image.load("risk.png"), [(size[0]/2)-233, 100])
+    pygame.display.flip()
     try:
         loadFromFile=pickle.load(open("Countrys.info","rb"))
         works=True
@@ -178,6 +179,7 @@ while True:
     elif not select and not leftMouseDown:
         onCountry=False
         for country in countryObjects:
+            print(mousePos, country.rect.center)
             if country.mask.overlap(mouseMask, (mousePos[0]-country.rect.x, mousePos[1]-country.rect.y)):
                 selectedCountry=country
                 onCountry=True
