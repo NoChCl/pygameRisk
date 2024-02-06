@@ -9,6 +9,7 @@ from infoScreen import *
 import faulthandler
 faulthandler.enable()
 
+restart=False
 
 #pygame init and other important init's
 pygame.init()
@@ -28,6 +29,7 @@ while not works:
     screen.blit(pygame.image.load("risk.png"), [(size[0]/2)-233, 100])
     pygame.display.flip()
     try:
+        restart
         loadFromFile=pickle.load(open("Countrys.info","rb"))
         works=True
     except Exception as e:
@@ -35,6 +37,7 @@ while not works:
         works=False
         countryData = getInfo(size, screen)
         pickle.dump(countryData, open( "Countrys.info", "wb" ) )
+        restart = True
 
 countryObjects=decode(loadFromFile, screen, size)
 

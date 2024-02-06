@@ -126,11 +126,10 @@ class Country():
                 point[1]-=small[1]
         self.small = small
         self.big = big    
-        
-        
-        
        
         self.pos=[0,0]
+        self.pos[0]=-self.size[0]/2
+        self.pos[1]=-self.size[1]/2
 
     def picklePrep(self):
         #self.image = pygame.image.tobytes(self.image)
@@ -164,6 +163,8 @@ class Country():
         self.rect = self.rect.move(speed)
         self.pos[0]+=speed[0]
         self.pos[1]+=speed[1]
+        if self.name=="united states":
+            print(self.pos)
         
     def zoom(self, direction):
         if direction =="-":
@@ -233,7 +234,11 @@ class Country():
         
         m=[self.pos[0]+(self.size[0]/2), self.pos[1]+(self.size[1]/2)]
         
+        
         self.rect = self.rect.move(m)
+        if self.name=="united states":
+            print(self.pos)
+        
         
     def __str__(self):
         s=self.name
