@@ -1,6 +1,7 @@
 import pygame, sys, math, random, pickle
 from countryinfo import *
 from Country import *
+from Player import *
 from Game import *
 from Menu import *
 from infoScreen import *
@@ -19,15 +20,22 @@ pygame.display.set_caption("RISK")
 clock = pygame.time.Clock();
 font = pygame.font.Font(None, 16)
 
-#menu(size, screen)
+selection = menu(size, screen)
+
 
 
 
 works=False
+
 while not works:
     screen.fill([30,144,255])
     screen.blit(pygame.image.load("risk.png"), [(size[0]/2)-233, 100])
+    font = pygame.font.Font(None, 32)
+    text = font.render("Loading...", True, (10, 10, 10))
+    textpos = [(size[0]/2)-233, 400]
+    screen.blit(text, textpos)
     pygame.display.flip()
+    
     try:
         restart
         loadFromFile=pickle.load(open("Countrys.info","rb"))
@@ -42,6 +50,15 @@ while not works:
 countryObjects=decode(loadFromFile, screen, size)
 
 
+if selection[0]=="load":
+    #stuff to load game
+    pass
+elif selection[0]=="new":
+    players=[]
+    for i in range(selection[2]):
+        players+= [Player(i)]
+    
+    game=Game(players, selection[1], countryObjects)
 
 
 

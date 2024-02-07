@@ -145,6 +145,8 @@ def menu(size, screen):
                     if leftMouseDown:
                         if backArrow.clicked(mousePos):
                             newGame=False
+                        if neutralButton.clicked(mousePos):
+                            return["new","neutral", 5]
                         if equalButton.clicked(mousePos):
                             Equal=True
                             
@@ -166,6 +168,10 @@ def menu(size, screen):
                                         if pygame.mouse.get_pressed()[0]:
                                             leftMouseDown=True
                                 if leftMouseDown:
+                                    if selectButton.clicked(mousePos):
+                                        return["new","select", 5]
+                                    if randomButton.clicked(mousePos):
+                                        return["new","random", 5]
                                     if backArrow.clicked(mousePos):
                                         Equal=False
                                 screen.blit(backArrow.image, backArrow.rect)
@@ -186,12 +192,6 @@ def menu(size, screen):
         screen.blit(newGameButton.image, newGameButton.rect)
         
         pygame.display.flip()
-        
-        
-
-        
-        
-        
         
         
 class menuObject():
