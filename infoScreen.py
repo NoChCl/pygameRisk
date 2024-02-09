@@ -21,7 +21,7 @@ def updateScreen(selectedCountry, screen):
     screen.blit(text, textpos)
             
     try:
-        text = font.render("Controled By: "+str(selectedCountry.controled), True, (10, 10, 10))
+        text = font.render("Controled By: "+str(selectedCountry.controled.name), True, (10, 10, 10))
     except:
         text=font.render("Controled By: N/A", True, (10, 10, 10))
     textpos = text.get_rect(x=10, y=595)

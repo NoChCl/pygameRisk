@@ -58,15 +58,14 @@ elif selection[0]=="new":
     for i in range(selection[2]):
         players+= [Player(i)]
     
+    
     game=Game(players, selection[1], countryObjects)
-
-
-
+    
 # ~ #makes all country objects
 #countryObjects=getInfo(size, screen)
 
 # ~ #makes a country actualy be selected
-selectedCountry=countryObjects[1]
+selectedCountry=None
 
 # ~ #mouse mask
 mousePos=pygame.mouse.get_pos()

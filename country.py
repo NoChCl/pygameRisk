@@ -62,7 +62,7 @@ class Country():
         #start troops is 0
         self.troops = 0
         #starts uncontroled
-        self.controled = ""
+        self.controled = None
         
         self.regions = []
         

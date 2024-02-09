@@ -8,7 +8,6 @@ from Neutral import *
 
 class Game():
     def __init__(self, players, gameType, countryObjects):
-        
         countrys=countryObjects
         
         self.players=players
@@ -19,7 +18,7 @@ class Game():
             count=0
             while len(countrys)>0:
                 count+=1
-                if count<=3:
+                if count<=10:
                     for player in self.players:
                         if len(countrys)==0:
                             break
@@ -28,6 +27,12 @@ class Game():
                     break
                 n+=[Neutral(countrys.pop(random.randint(0,(len(countrys)-1))))]
             self.players+=n
+            
+            self.countryObjects=[]
+            for player in self.players:
+                for country in player.countrys:
+                    country.controled=player
+                    countryObjects+=[country]
         elif gameType=="random":
             while len(countrys)>0:
                 for player in self.players:
@@ -37,12 +42,12 @@ class Game():
                         player.countrys+=[countrys.pop(0)]
                     else:
                         player.countrys+=[countrys.pop(random.randint(0,(len(countrys)-1)))]
-            
-            
+            self.countryObjects=[]
             for player in self.players:
                 for country in player.countrys:
-                    country.controled=player.name
-        
+                    print(player)
+                    country.controled=player
+                    countryObjects+=[country]
         
         
 

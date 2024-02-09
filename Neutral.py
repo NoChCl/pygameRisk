@@ -4,7 +4,8 @@ from Country import *
 
 class Neutral:
     def __init__(self, country):
-        self.countrys=country
+        self.countrys=[country]
+        self.name="__Neutral__"
         
     def attack(self):
         pass

@@ -139,9 +139,6 @@ def menu(size, screen):
                         if event.type == pygame.MOUSEBUTTONDOWN:
                             if pygame.mouse.get_pressed()[0]:
                                 leftMouseDown=True
-                    
-                    
-                    
                     if leftMouseDown:
                         if backArrow.clicked(mousePos):
                             newGame=False
@@ -193,7 +190,104 @@ def menu(size, screen):
         
         pygame.display.flip()
         
+def newGame():
+    
+    #Neutral
+    selNeutralImage=pygame.Surface([700,75])
+    selNeutralImage.fill([125,140,140])
+    
+    font = pygame.font.Font(None, 80)
+    text = font.render("Neutral Game", True, (10, 10, 10))
+    textpos = text.get_rect(x=350-(294/2), y=10)
+    selNeutralImage.blit(text, textpos)
         
+    neutralButton=menuObject(selNeutralImage,[370,350])
+    
+    #Equal
+    selEqualImage=pygame.Surface([700,75])
+    selEqualImage.fill([125,140,140])
+    
+    font = pygame.font.Font(None, 80)
+    text = font.render("Equal Game", True, (10, 10, 10))
+    textpos = text.get_rect(x=350-(294/2), y=10)
+    selEqualImage.blit(text, textpos)
+        
+    equalButton=menuObject(selEqualImage,[370,450])
+    
+    #back arrow
+    backArrow=menuObject(pygame.image.load("backArrow.png"),[10,10])
+    
+    newGame=True
+                
+    while newGame:
+        leftMouseDown=False
+        screen.fill([30,144,255])
+        screen.blit(pygame.image.load("menuBg.png"), (0,0))
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEMOTION:
+                mousePos = pygame.mouse.get_pos()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if pygame.mouse.get_pressed()[0]:
+                    leftMouseDown=True
+            if event.type==pygame.QUIT:
+                sys.exit()
+            if event.type == pygame.MOUSEMOTION:
+                mousePos = pygame.mouse.get_pos()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if pygame.mouse.get_pressed()[0]:
+                    leftMouseDown=True
+
+        if leftMouseDown:
+            if backArrow.clicked(mousePos):
+                newGame=False
+            if neutralButton.clicked(mousePos):
+                return["new","neutral", 5]
+            if equalButton.clicked(mousePos):
+                e=equal()
+                if e!=None:
+                    return e
+                
+        screen.blit(backArrow.image, backArrow.rect)
+        screen.blit(neutralButton.image, neutralButton.rect)
+        screen.blit(equalButton.image, equalButton.rect)
+                    
+        pygame.display.flip()
+    return None
+def equal():
+    backArrow=menuObject(pygame.image.load("backArrow.png"),[10,10])
+    
+    Equal=True
+    while Equal:
+        leftMouseDown=False
+        screen.fill([30,144,255])
+        screen.blit(pygame.image.load("menuBg.png"), (0,0))
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEMOTION:
+                mousePos = pygame.mouse.get_pos()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if pygame.mouse.get_pressed()[0]:
+                    leftMouseDown=True
+            if event.type==pygame.QUIT:
+                sys.exit()
+            if event.type == pygame.MOUSEMOTION:
+                mousePos = pygame.mouse.get_pos()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if pygame.mouse.get_pressed()[0]:
+                    leftMouseDown=True
+        if leftMouseDown:
+            if selectButton.clicked(mousePos):
+                return["new","select", 5]
+            if randomButton.clicked(mousePos):
+                return["new","random", 5]
+            if backArrow.clicked(mousePos):
+                Equal=False
+        screen.blit(backArrow.image, backArrow.rect)
+        screen.blit(selectButton.image, neutralButton.rect)
+        screen.blit(randomButton.image, equalButton.rect)
+        
+        pygame.display.flip()
+    return None
+    
 class menuObject():
     def __init__(self, image, pos):
         self.image=image
