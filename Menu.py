@@ -1,6 +1,9 @@
 import pygame, sys, math, random
 from countryinfo import *
-from Country import *
+try:   
+    from Country import *
+except:
+    from country import *
 from Game import *
 from infoScreen import *
 from Player import *
@@ -300,6 +303,7 @@ class menuObject():
         mouseMask=pygame.mask.from_surface(mouse)
         
         if self.mask.overlap(mouseMask, (mousePos[0]-self.rect.x, mousePos[1]-self.rect.y)):
+            print("hello!")
             return True
 
 if __name__ == "__main__":

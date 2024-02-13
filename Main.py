@@ -1,6 +1,9 @@
 import pygame, sys, math, random, pickle
 from countryinfo import *
-from Country import *
+try:   
+    from Country import *
+except:
+    from country import *
 from Player import *
 from Game import *
 from Menu import *

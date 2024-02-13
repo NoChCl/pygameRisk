@@ -1,6 +1,8 @@
 import pygame
-from Country import *
-
+try:   
+    from Country import *
+except:
+    from country import *
 
 class Player:
     def __init__(self, name):

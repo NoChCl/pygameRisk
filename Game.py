@@ -1,6 +1,9 @@
 import pygame, sys, math, random
 from countryinfo import *
-from Country import *
+try:   
+    from Country import *
+except:
+    from country import *
 from Game import *
 from infoScreen import *
 from Player import *
