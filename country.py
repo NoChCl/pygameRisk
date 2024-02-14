@@ -157,14 +157,46 @@ class Country():
         
     
     def update(self):
-        pass
+        if self.name=="united states":
+            print(self.pos)
+            
+        if self.pos[0]>=self.size[0]/2:
+            self.rect=self.rect.move(-self.size[0], 0)
+            self.pos[0]-= self.size[0]
+        elif self.pos[0]<=-((self.size[0]/2)+self.size[0]):
+            self.rect=self.rect.move(self.size[0], 0)
+            self.pos[0]+=self.size[0]
+        elif self.pos[1]>=self.size[1]/2:
+            self.rect=self.rect.move(0, -self.size[1])
+            self.pos[1]-= self.size[1]
+        elif self.pos[0]<=-((self.size[0]/2)+self.size[0]):
+            self.rect=self.rect.move(self.size[0], 0)
+            self.pos[0]+=self.size[0]
+            
+            
         
     def move(self, speed):
         self.rect = self.rect.move(speed)
         self.pos[0]+=speed[0]
         self.pos[1]+=speed[1]
-        if self.name=="united states":
-            print(self.pos)
+        
+        
+    def blit(self, screen):
+        #center
+        screen.blit(self.image, self.rect)
+        screen.blit(self.image, self.rect.move([0, self.size[1]]))
+        screen.blit(self.image, self.rect.move([0, -self.size[1]]))
+        
+        #right side
+        screen.blit(self.image, self.rect.move(self.size))
+        screen.blit(self.image, self.rect.move([self.size[0], 0]))
+        screen.blit(self.image, self.rect.move([self.size[0], -self.size[1]]))
+        
+        #left side
+        screen.blit(self.image, self.rect.move([-self.size[0], -self.size[1]]))
+        screen.blit(self.image, self.rect.move([-self.size[0], 0]))
+        screen.blit(self.image, self.rect.move([-self.size[0], self.size[1]]))
+        
         
     def zoom(self, direction):
         if direction =="-":

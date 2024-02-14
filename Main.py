@@ -183,6 +183,9 @@ while True:
     if LEFT and not shift:countryObjects=action(countryObjects, "moveL")
     if RIGHT and not shift:countryObjects=action(countryObjects, "moveR")
     
+    for country in countryObjects:
+        country.update()
+    
     if select and leftMouseDown:
         onCountry=False
         for country in countryObjects:
@@ -222,7 +225,7 @@ while True:
     
 
     for country in countryObjects:
-        screen.blit(country.image, country.rect)
+        country.blit(screen)
         
     updateScreen(selectedCountry, screen)
             
