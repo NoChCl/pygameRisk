@@ -12,6 +12,7 @@ class Country():
         try:
             self.borders = self.info.borders()
         except:
+            print(self.name)
             self.borders = None
             
             
@@ -130,7 +131,10 @@ class Country():
         self.pos=[0,0]
         self.pos[0]=-self.size[0]/2
         self.pos[1]=-self.size[1]/2
-
+        
+        self.zoomLvl=1
+        
+        
     def picklePrep(self):
         #self.image = pygame.image.tobytes(self.image)
         pass
@@ -156,25 +160,41 @@ class Country():
                 point[1]+=self.small[1]
         
     
+    def makeRects(self):
+        self.rects = [self.rect, 
+        self.rect.move([0, self.size[1]*self.zoomLvl]),
+        self.rect.move([0, -self.size[1]*self.zoomLvl]),
+        
+        self.rect.move([self.size[0]*self.zoomLvl, self.size[1]*self.zoomLvl]),
+        self.rect.move([self.size[0]*self.zoomLvl, 0]),
+        self.rect.move([self.size[0]*self.zoomLvl, -self.size[1]*self.zoomLvl]),
+        
+        self.rect.move([-self.size[0]*self.zoomLvl, -self.size[1]*self.zoomLvl]),
+        self.rect.move([-self.size[0]*self.zoomLvl, 0]),
+        self.rect.move([-self.size[0]*self.zoomLvl, self.size[1]*self.zoomLvl]),]
+        
+    
     def update(self):
         if self.name=="united states":
-            print(self.pos)
+            #print(self.pos)
+            pass
             
-        if self.pos[0]>=self.size[0]/2:
-            self.rect=self.rect.move(-self.size[0], 0)
-            self.pos[0]-= self.size[0]
-        elif self.pos[0]<=-((self.size[0]/2)+self.size[0]):
-            self.rect=self.rect.move(self.size[0], 0)
-            self.pos[0]+=self.size[0]
-        elif self.pos[1]>=self.size[1]/2:
-            self.rect=self.rect.move(0, -self.size[1])
-            self.pos[1]-= self.size[1]
-        elif self.pos[0]<=-((self.size[0]/2)+self.size[0]):
-            self.rect=self.rect.move(self.size[0], 0)
-            self.pos[0]+=self.size[0]
+        if self.pos[0]>=self.size[0]/2*self.zoomLvl:
+            self.rect=self.rect.move(-self.size[0]*self.zoomLvl, 0)
+            self.pos[0]-= self.size[0]*self.zoomLvl
             
+        elif self.pos[0]<=-((self.size[0]/2*self.zoomLvl)+self.size[0]*self.zoomLvl):
+            self.rect=self.rect.move(self.size[0]*self.zoomLvl, 0)
+            self.pos[0]+=self.size[0]*self.zoomLvl
             
-        
+        elif self.pos[1]>=self.size[1]/2*self.zoomLvl:
+            self.rect=self.rect.move(0, -self.size[1]*self.zoomLvl)
+            self.pos[1]-= self.size[1]*self.zoomLvl
+            
+        elif self.pos[1]<=-((self.size[1]/2*self.zoomLvl)+self.size[1]*self.zoomLvl):
+            self.rect=self.rect.move(0, self.size[1]*self.zoomLvl)
+            self.pos[1]+=self.size[1]*self.zoomLvl
+                    
     def move(self, speed):
         self.rect = self.rect.move(speed)
         self.pos[0]+=speed[0]
@@ -182,24 +202,30 @@ class Country():
         
         
     def blit(self, screen):
+        self.makeRects()
+        for rect in self.rects:
+            screen.blit(self.image, rect)
+        
+        '''
         #center
         screen.blit(self.image, self.rect)
-        screen.blit(self.image, self.rect.move([0, self.size[1]]))
-        screen.blit(self.image, self.rect.move([0, -self.size[1]]))
+        screen.blit(self.image, self.rect.move([0, self.size[1]*self.zoomLvl]))
+        screen.blit(self.image, self.rect.move([0, -self.size[1]*self.zoomLvl]))
         
         #right side
-        screen.blit(self.image, self.rect.move(self.size))
-        screen.blit(self.image, self.rect.move([self.size[0], 0]))
-        screen.blit(self.image, self.rect.move([self.size[0], -self.size[1]]))
+        screen.blit(self.image, self.rect.move([self.size[0]*self.zoomLvl, self.size[1]*self.zoomLvl]))
+        screen.blit(self.image, self.rect.move([self.size[0]*self.zoomLvl, 0]))
+        screen.blit(self.image, self.rect.move([self.size[0]*self.zoomLvl, -self.size[1]*self.zoomLvl]))
         
         #left side
-        screen.blit(self.image, self.rect.move([-self.size[0], -self.size[1]]))
-        screen.blit(self.image, self.rect.move([-self.size[0], 0]))
-        screen.blit(self.image, self.rect.move([-self.size[0], self.size[1]]))
-        
+        screen.blit(self.image, self.rect.move([-self.size[0]*self.zoomLvl, -self.size[1]*self.zoomLvl]))
+        screen.blit(self.image, self.rect.move([-self.size[0]*self.zoomLvl, 0]))
+        screen.blit(self.image, self.rect.move([-self.size[0]*self.zoomLvl, self.size[1]*self.zoomLvl]))
+        '''
         
     def zoom(self, direction):
         if direction =="-":
+            self.zoomLvl/=1.25
             self.pos[0]/=1.25
             self.pos[1]/=1.25
             for region in self.regions:
@@ -207,6 +233,7 @@ class Country():
                     point[0]/=1.25
                     point[1]/=1.25
         if direction =="+":
+            self.zoomLvl*=1.25
             self.pos[0]*=1.25
             self.pos[1]*=1.25
             for region in self.regions:
@@ -269,8 +296,8 @@ class Country():
         
         self.rect = self.rect.move(m)
         if self.name=="united states":
-            print(self.pos)
-        
+            #print(self.pos)
+            pass
         
     def __str__(self):
         s=self.name

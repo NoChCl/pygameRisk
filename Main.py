@@ -186,6 +186,7 @@ while True:
     for country in countryObjects:
         country.update()
     
+    #country select
     if select and leftMouseDown:
         onCountry=False
         for country in countryObjects:
@@ -219,6 +220,8 @@ while True:
             select=False
         
     leftMouseDown=False
+    #end country select
+            
             
     #put things on screen
     screen.fill([30,144,255])
