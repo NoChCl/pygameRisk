@@ -49,7 +49,7 @@ while not works:
         countryData = getInfo(size, screen)
         pickle.dump(countryData, open( "Countrys.info", "wb" ) )
         restart = True
-        countryData=None
+        del countryData
 
 countryObjects=decode(loadFromFile, screen, size)
 
