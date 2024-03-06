@@ -186,13 +186,19 @@ while True:
     for country in countryObjects:
         country.update()
     
+    found=False
+    
     #country select
     if select and leftMouseDown:
         onCountry=False
         for country in countryObjects:
-            if country.mask.overlap(mouseMask, (mousePos[0]-country.rect.x, mousePos[1]-country.rect.y)):
-                selectedCountry=country
-                onCountry=True
+            for rect in country.rects:
+                if country.mask.overlap(mouseMask, (mousePos[0]-rect.x, mousePos[1]-rect.y)):
+                    selectedCountry=country
+                    onCountry=True
+                    found=True
+                    break
+            if found:
                 break
         if not onCountry:
             selectedCountry=None
@@ -200,10 +206,14 @@ while True:
     elif leftMouseDown:
         onCountry=False
         for country in countryObjects:
-            if country.mask.overlap(mouseMask, (mousePos[0]-country.rect.x, mousePos[1]-country.rect.y)):
-                selectedCountry=country
-                onCountry=True
-                select=True
+            for rect in country.rects:
+                if country.mask.overlap(mouseMask, (mousePos[0]-rect.x, mousePos[1]-rect.y)):
+                    selectedCountry=country
+                    onCountry=True
+                    select=True
+                    found=True
+                    break
+            if found:
                 break
         if not onCountry:
             selectedCountry=None
@@ -211,9 +221,13 @@ while True:
     elif not select and not leftMouseDown:
         onCountry=False
         for country in countryObjects:
-            if country.mask.overlap(mouseMask, (mousePos[0]-country.rect.x, mousePos[1]-country.rect.y)):
-                selectedCountry=country
-                onCountry=True
+            for rect in country.rects:
+                if country.mask.overlap(mouseMask, (mousePos[0]-rect.x, mousePos[1]-rect.y)):
+                    selectedCountry=country
+                    onCountry=True
+                    found=True
+                    break
+            if found:
                 break
         if not onCountry:
             selectedCountry=None

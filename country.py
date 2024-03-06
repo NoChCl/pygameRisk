@@ -158,6 +158,7 @@ class Country():
             for point in region:
                 point[0]+=self.small[0]
                 point[1]+=self.small[1]
+        self.makeRects()
         
     
     def makeRects(self):
