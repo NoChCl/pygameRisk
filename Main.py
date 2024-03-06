@@ -86,6 +86,8 @@ DOWN=False
 shift=False
 zoomIn=False
 zoomOut=False
+ZOOMIN=False
+ZOOMOUT=False
 
 debug = False
 
@@ -94,6 +96,10 @@ leftMouseDown=False
 select=False
 
 t=0
+
+for country in countryObjects:
+    if country.name[0]=="m":
+        print(country.name)
 
 while True:
     #get events
@@ -106,20 +112,26 @@ while True:
             if pygame.mouse.get_pressed()[0]:
                 leftMouseDown=True
         if event.type == pygame.KEYDOWN:
-            if  event.key == pygame.K_w:
+            if  event.key == pygame.K_w or event.key == pygame.K_UP:
                 if 11>= zoom:
                     zoomIn=True
                 UP=True
-            if  event.key == pygame.K_a:
+            if  event.key == pygame.K_a or event.key == pygame.K_LEFT:
                 LEFT=True
-            if  event.key == pygame.K_s:
+            if  event.key == pygame.K_s or event.key == pygame.K_DOWN:
                 DOWN=True
                 if 1<= zoom:
                     zoomOut=True
-            if  event.key == pygame.K_d:
+            if  event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                 RIGHT=True
-            if  event.key == pygame.K_LSHIFT:
+            if  event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
                 shift=True
+            if  event.key == pygame.K_e:
+                if 11>= zoom:
+                    ZOOMIN=True
+            if  event.key == pygame.K_q:
+                if 1<= zoom:
+                    ZOOMOUT=True
                 
                 
             if  event.key == pygame.K_p:
@@ -138,23 +150,23 @@ while True:
                     
                 
         if event.type == pygame.KEYUP:
-            if  event.key == pygame.K_LSHIFT:
+            if  event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
                 shift=False
-            if  event.key == pygame.K_w:
+            if  event.key == pygame.K_w or event.key == pygame.K_UP:
                 #Intentonal bug.
                 #Line below is fix
                 #zoomIn=False
                 
                 UP=False
-            if  event.key == pygame.K_s:
+            if  event.key == pygame.K_s or event.key == pygame.K_DOWN:
                 #Another intentonal bug.
                 #Line below is fix
                 #zoomIn=False
                 
                 DOWN=False
-            if  event.key == pygame.K_a:
+            if  event.key == pygame.K_a or event.key == pygame.K_LEFT:
                 LEFT=False
-            if  event.key == pygame.K_d:
+            if  event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                 RIGHT=False
         
 
@@ -162,17 +174,23 @@ while True:
         zoom+=1
         countryObjects=action(countryObjects, "+")
         zoomIn=False
-        
+    elif ZOOMIN:
+        zoom+=1
+        countryObjects=action(countryObjects, "+")
+        ZOOMIN=False
+    
     if zoomOut and shift:
         zoom-=1
         countryObjects=action(countryObjects, "-")
         zoomOut=False
-    
-    
+    elif ZOOMOUT:
+        zoom-=1
+        countryObjects=action(countryObjects, "-")
+        ZOOMOUT=False
     
     if shift:
         UP=False
-        DOWN =UP  
+        DOWN=UP  
         
     
     
