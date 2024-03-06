@@ -49,6 +49,7 @@ while not works:
         countryData = getInfo(size, screen)
         pickle.dump(countryData, open( "Countrys.info", "wb" ) )
         restart = True
+        countryData=None
 
 countryObjects=decode(loadFromFile, screen, size)
 
@@ -97,9 +98,7 @@ select=False
 
 t=0
 
-for country in countryObjects:
-    if country.name[0]=="m":
-        print(country.name)
+
 
 while True:
     #get events
