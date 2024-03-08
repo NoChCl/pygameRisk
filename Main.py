@@ -53,6 +53,7 @@ while not works:
 
 countryObjects=decode(loadFromFile, screen, size)
 
+del loadFromFile
 
 if selection[0]=="load":
     #stuff to load game
@@ -97,8 +98,6 @@ leftMouseDown=False
 select=False
 
 t=0
-
-
 
 while True:
     #get events
@@ -265,7 +264,7 @@ while True:
             
     if debug:
         text = font.render("FPS: "+str(clock.get_fps()), True, ((255/2)-40, (255/2)-40, (255/2)-40))
-        textpos = text.get_rect(x=1380, y=0)
+        textpos = text.get_rect(x=10, y=0)
         screen.blit(text, textpos)
             
             
