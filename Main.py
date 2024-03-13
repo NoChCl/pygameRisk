@@ -13,7 +13,6 @@ from infoScreen import *
 import faulthandler
 faulthandler.enable()
 
-restart=False
 
 #pygame init and other important init's
 pygame.init()
@@ -25,6 +24,8 @@ font = pygame.font.Font(None, 16)
 
 selection = menu(size, screen)
 
+if selection[0]=="load":
+    restart=False
 
 
 
@@ -41,30 +42,30 @@ while not works:
     
     try:
         restart
-        loadFromFile=pickle.load(open("Countrys.info","rb"))
+        loadFromFile=pickle.load(open(selection[1],"rb"))
         works=True
     except Exception as e:
-        print(e)
+        if not str(e)=="name 'restart' is not defined":
+            print(str(e))
         works=False
         countryData = getInfo(size, screen)
-        pickle.dump(countryData, open( "Countrys.info", "wb" ) )
+        pickle.dump(countryData, open(selection[1], "wb" ) )
         restart = True
         del countryData
+
+
 
 countryObjects=decode(loadFromFile, screen, size)
 
 del loadFromFile
 
-if selection[0]=="load":
-    #stuff to load game
-    pass
-elif selection[0]=="new":
+if selection[0]=="new":
     players=[]
-    for i in range(selection[2]):
+    for i in range(selection[3]):
         players+= [Player(i)]
     
     
-    game=Game(players, selection[1], countryObjects)
+    game=Game(players, selection[2], countryObjects)
     
 # ~ #makes all country objects
 #countryObjects=getInfo(size, screen)

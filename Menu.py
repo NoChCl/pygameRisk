@@ -1,4 +1,4 @@
-import pygame, sys, math, random
+import pygame, sys, math, random, os, pathlib
 from countryinfo import *
 try:   
     from Country import *
@@ -121,7 +121,9 @@ def menu(size, screen):
             if quitButton.clicked(mousePos):
                 quit()
             if loadGameButton.clicked(mousePos):
-                return ["load"]
+                load=loadGame(screen)
+                if not load==None:
+                    return load
             if newGameButton.clicked(mousePos):
                 newGame=True
                 
@@ -146,7 +148,7 @@ def menu(size, screen):
                         if backArrow.clicked(mousePos):
                             newGame=False
                         if neutralButton.clicked(mousePos):
-                            return["new","neutral", 5]
+                            return["new","games/Countrys.info", "neutral", 5]
                         if equalButton.clicked(mousePos):
                             Equal=True
                             
@@ -169,9 +171,9 @@ def menu(size, screen):
                                             leftMouseDown=True
                                 if leftMouseDown:
                                     if selectButton.clicked(mousePos):
-                                        return["new","select", 5]
+                                        return["new","games/Countrys.info","select", 5]
                                     if randomButton.clicked(mousePos):
-                                        return["new","random", 5]
+                                        return["new","games/Countrys.info","random", 5]
                                     if backArrow.clicked(mousePos):
                                         Equal=False
                                 screen.blit(backArrow.image, backArrow.rect)
@@ -192,75 +194,28 @@ def menu(size, screen):
         screen.blit(newGameButton.image, newGameButton.rect)
         
         pygame.display.flip()
-        
-def newGame():
-    
-    #Neutral
-    selNeutralImage=pygame.Surface([700,75])
-    selNeutralImage.fill([125,140,140])
-    
-    font = pygame.font.Font(None, 80)
-    text = font.render("Neutral Game", True, (10, 10, 10))
-    textpos = text.get_rect(x=350-(294/2), y=10)
-    selNeutralImage.blit(text, textpos)
-        
-    neutralButton=menuObject(selNeutralImage,[370,350])
-    
-    #Equal
-    selEqualImage=pygame.Surface([700,75])
-    selEqualImage.fill([125,140,140])
-    
-    font = pygame.font.Font(None, 80)
-    text = font.render("Equal Game", True, (10, 10, 10))
-    textpos = text.get_rect(x=350-(294/2), y=10)
-    selEqualImage.blit(text, textpos)
-        
-    equalButton=menuObject(selEqualImage,[370,450])
-    
-    #back arrow
+def loadGame(screen):
     backArrow=menuObject(pygame.image.load("backArrow.png"),[10,10])
     
-    newGame=True
-                
-    while newGame:
-        leftMouseDown=False
-        screen.fill([30,144,255])
-        screen.blit(pygame.image.load("menuBg.png"), (0,0))
-        for event in pygame.event.get():
-            if event.type == pygame.MOUSEMOTION:
-                mousePos = pygame.mouse.get_pos()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if pygame.mouse.get_pressed()[0]:
-                    leftMouseDown=True
-            if event.type==pygame.QUIT:
-                sys.exit()
-            if event.type == pygame.MOUSEMOTION:
-                mousePos = pygame.mouse.get_pos()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if pygame.mouse.get_pressed()[0]:
-                    leftMouseDown=True
-
-        if leftMouseDown:
-            if backArrow.clicked(mousePos):
-                newGame=False
-            if neutralButton.clicked(mousePos):
-                return["new","neutral", 5]
-            if equalButton.clicked(mousePos):
-                e=equal()
-                if e!=None:
-                    return e
-                
-        screen.blit(backArrow.image, backArrow.rect)
-        screen.blit(neutralButton.image, neutralButton.rect)
-        screen.blit(equalButton.image, equalButton.rect)
-                    
-        pygame.display.flip()
-    return None
-def equal():
-    backArrow=menuObject(pygame.image.load("backArrow.png"),[10,10])
+    font = pygame.font.Font(None, 80)
+    gameText=font.render("Games:", True, (10, 10, 10))
+    gameTextPos=gameText.get_rect(x=370, y=190)
     
-    Equal=True
-    while Equal:
+    files=list(os.listdir(str(pathlib.Path(__file__).parent.resolve())+"/games"))
+    games=[]
+    for f in files:
+        if ".info" in f:
+            games+=[f]
+    gameButtons=[]
+    for x, game in enumerate(games):
+        Image=pygame.Surface([700,75])
+        Image.fill([125,140,140])
+        text = font.render(game, True, (10, 10, 10))
+        textpos = text.get_rect(x=20, y=10)
+        Image.blit(text, textpos)
+        gameButtons+=[menuObject(Image,[370,250+85*x])]
+        
+    while True:
         leftMouseDown=False
         screen.fill([30,144,255])
         screen.blit(pygame.image.load("menuBg.png"), (0,0))
@@ -278,18 +233,18 @@ def equal():
                 if pygame.mouse.get_pressed()[0]:
                     leftMouseDown=True
         if leftMouseDown:
-            if selectButton.clicked(mousePos):
-                return["new","select", 5]
-            if randomButton.clicked(mousePos):
-                return["new","random", 5]
             if backArrow.clicked(mousePos):
-                Equal=False
-        screen.blit(backArrow.image, backArrow.rect)
-        screen.blit(selectButton.image, neutralButton.rect)
-        screen.blit(randomButton.image, equalButton.rect)
+                return None
+            for x,button in enumerate(gameButtons):
+                if button.clicked(mousePos):
+                    return ["load","games/"+games[x]]
         
+        for button in gameButtons:
+            screen.blit(button.image, button.rect)
+        screen.blit(backArrow.image, backArrow.rect)
+        screen.blit(gameText, gameTextPos)
         pygame.display.flip()
-    return None
+    
     
 class menuObject():
     def __init__(self, image, pos):

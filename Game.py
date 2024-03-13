@@ -134,7 +134,7 @@ def getInfo(size, screen):
         names += [key]
     l=[0,20]
     
-    Itext = font.render("Inital load, this may take a while...", True, (10, 10, 10))
+    Itext = font.render("Generating new game, this may take a while...", True, (10, 10, 10))
     Itextpos = [(size[0]/2)-233, 425]
 
     font = pygame.font.Font(None, 32)
