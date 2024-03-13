@@ -16,6 +16,7 @@ faulthandler.enable()
 
 #pygame init and other important init's
 pygame.init()
+print("Thank you for using countryinfo: https://pypi.org/project/countryinfo/")
 size = [1440, 720]
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("RISK")
@@ -24,14 +25,23 @@ font = pygame.font.Font(None, 16)
 
 selection = menu(size, screen)
 
+
+screen.fill([30,144,255])
+screen.blit(pygame.image.load("risk.png"), [(size[0]/2)-233, 100])
+font = pygame.font.Font(None, 32)
+text = font.render("Loading...", True, (10, 10, 10))
+textpos = [(size[0]/2)-233, 400]
+screen.blit(text, textpos)
+pygame.display.flip()
+
+
+
 if selection[0]=="load":
-    restart=False
-
-
-
-works=False
-
-while not works:
+    loadFromFile=pickle.load(open(selection[1],"rb"))
+else:
+    countryData = getInfo(size, screen)
+    pickle.dump(countryData, open(selection[1], "wb" ) )
+    
     screen.fill([30,144,255])
     screen.blit(pygame.image.load("risk.png"), [(size[0]/2)-233, 100])
     font = pygame.font.Font(None, 32)
@@ -39,21 +49,12 @@ while not works:
     textpos = [(size[0]/2)-233, 400]
     screen.blit(text, textpos)
     pygame.display.flip()
+
     
-    try:
-        restart
-        loadFromFile=pickle.load(open(selection[1],"rb"))
-        works=True
-    except Exception as e:
-        if not str(e)=="name 'restart' is not defined":
-            print(str(e))
-        works=False
-        countryData = getInfo(size, screen)
-        pickle.dump(countryData, open(selection[1], "wb" ) )
-        restart = True
-        del countryData
-
-
+    del countryData
+    loadFromFile=pickle.load(open(selection[1],"rb"))
+    
+    
 
 countryObjects=decode(loadFromFile, screen, size)
 

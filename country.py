@@ -8,7 +8,7 @@ class Country():
         self.name=name
         self.info = CountryInfo(name)
         self.contenent = self.info.region()
-        
+        self.abr=self.info.iso(3)
         try:
             self.borders = self.info.borders()
         except:
