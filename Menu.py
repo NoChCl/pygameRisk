@@ -9,6 +9,10 @@ from infoScreen import *
 from Player import *
 from Neutral import *
 
+import pygame_widgets
+from pygame_widgets.textbox import TextBox
+
+
 def menu(size, screen):
     menuOpen=True
     
@@ -122,6 +126,7 @@ def menu(size, screen):
                 quit()
             if loadGameButton.clicked(mousePos):
                 load=loadGame(screen)
+                mousePos = pygame.mouse.get_pos()
                 if not load==None:
                     return load
             if newGameButton.clicked(mousePos):
@@ -148,7 +153,10 @@ def menu(size, screen):
                         if backArrow.clicked(mousePos):
                             newGame=False
                         if neutralButton.clicked(mousePos):
-                            return["new","games/Countrys.info", "neutral", 5]
+                            new=makeGame(size, screen)
+                            mousePos = pygame.mouse.get_pos()
+                            if not new == None:
+                                return["new",new[0], "neutral", new[1]]
                         if equalButton.clicked(mousePos):
                             Equal=True
                             
@@ -171,9 +179,15 @@ def menu(size, screen):
                                             leftMouseDown=True
                                 if leftMouseDown:
                                     if selectButton.clicked(mousePos):
-                                        return["new","games/Countrys.info","select", 5]
+                                        new=makeGame(size, screen)
+                                        mousePos = pygame.mouse.get_pos()
+                                        if not new == None:
+                                            return["new",new[0],"select", new[1]]
                                     if randomButton.clicked(mousePos):
-                                        return["new","games/Countrys.info","random", 5]
+                                        new=makeGame(size, screen)
+                                        mousePos = pygame.mouse.get_pos()
+                                        if not new == None:
+                                            return["new",new[0],"random", new[1]]
                                     if backArrow.clicked(mousePos):
                                         Equal=False
                                 screen.blit(backArrow.image, backArrow.rect)
@@ -194,6 +208,105 @@ def menu(size, screen):
         screen.blit(newGameButton.image, newGameButton.rect)
         
         pygame.display.flip()
+        
+def makeGame(size, screen):
+    fade=pygame.Surface([600, size[1]])
+    fade.fill([255,255,255])
+    fade.set_alpha(150)
+    
+    
+    font = pygame.font.Font(None, 80)
+    backArrow=menuObject(pygame.image.load("backArrow.png"),[10,10])
+    
+    texts=[]
+    textsPos=[]
+    texts+=[font.render("Game Name:", True, (10, 10, 10))]
+    textsPos+=[texts[0].get_rect(x=500, y=50)]
+    
+    font = pygame.font.Font(None, 50)
+
+    texts+=[font.render("Number of Players:", True, (10, 10, 10))]
+    textsPos+=[texts[1].get_rect(x=500, y=160)]
+    
+    ENTERBUTTON=pygame.Surface([400,150])
+    ENTERBUTTON.fill([125,140,140])
+    
+    font = pygame.font.Font(None, 80)
+    text = font.render("Make", True, (10, 10, 10))
+    textpos = text.get_rect(x=120, y=20)
+    ENTERBUTTON.blit(text, textpos)
+    text = font.render("New Game", True, (10, 10, 10))
+    textpos = text.get_rect(x=60, y=80)
+    ENTERBUTTON.blit(text, textpos)
+    
+    ENTERBUTTON=menuObject(ENTERBUTTON, [500, 550])
+    
+    
+    name=''
+    pn=2
+    gameName = TextBox(screen, 500, 100, 400, 50, fontSize=30, borderColour=(0, 0, 0), textColour=(0, 0, 0), onSubmit=nameOut, radius=0, borderThickness=1)
+    playerNumber = TextBox(screen, 500, 195, 400, 50, fontSize=30, borderColour=(0, 0, 0), textColour=(0, 0, 0), onSubmit=numbOut, radius=0, borderThickness=1)
+    
+    mousePos = pygame.mouse.get_pos()
+    
+    newGame=True
+    while newGame:
+        leftMouseDown=False
+        screen.fill([30,144,255])
+        screen.blit(pygame.image.load("menuBg.png"), (0,0))
+        events=pygame.event.get()
+        for event in events:
+            if event.type == pygame.MOUSEMOTION:
+                mousePos = pygame.mouse.get_pos()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if pygame.mouse.get_pressed()[0]:
+                    leftMouseDown=True
+            if event.type==pygame.QUIT:
+                sys.exit()
+            if event.type == pygame.MOUSEMOTION:
+                mousePos = pygame.mouse.get_pos()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if pygame.mouse.get_pressed()[0]:
+                    leftMouseDown=True
+        if leftMouseDown:
+            if backArrow.clicked(mousePos):
+                return None
+            if ENTERBUTTON.clicked(mousePos):
+                submit()
+                return ["games/"+name+".info", pn]
+        
+        
+        screen.blit(fade, [400, 0])
+        screen.blit(backArrow.image, backArrow.rect)
+        
+        screen.blit(ENTERBUTTON.image, ENTERBUTTON.rect)
+        
+        pygame_widgets.update(events)
+        for x, text in enumerate(texts):
+            screen.blit(text, textsPos[x])
+        
+        pygame.display.update()
+
+    
+#functions for textbox    
+def submit():
+    nameOut(True)
+    numbOut(True)
+def nameOut(submit=False):
+    if submit:
+        global name
+        name = gameName.getText()
+def numbOut(submit=False):
+    if submit:
+        global pn
+        try:
+            pn = int(playerNumber.getText())
+        except:
+            print("ERROR!!!!!!!")
+            pn=2
+
+
+
 def loadGame(screen):
     backArrow=menuObject(pygame.image.load("backArrow.png"),[10,10])
     
