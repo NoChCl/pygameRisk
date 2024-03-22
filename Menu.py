@@ -272,8 +272,8 @@ def makeGame(size, screen):
             if backArrow.clicked(mousePos):
                 return None
             if ENTERBUTTON.clicked(mousePos):
-                submit()
-                return ["games/"+name+".info", pn]
+                #submit()
+                return ["games/"+gameName.getText()+".info", playerNumber.getText()]
         
         
         screen.blit(fade, [400, 0])
