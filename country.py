@@ -136,7 +136,8 @@ class Country():
         
         
     def picklePrep(self):
-        #self.image = pygame.image.tobytes(self.image)
+        self.image = None
+        self.mask = None
         pass
         
     def unpickle(self):

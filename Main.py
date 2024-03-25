@@ -40,7 +40,7 @@ if selection[0]=="load":
     loadFromFile=pickle.load(open(selection[1],"rb"))
 else:
     countryData = getInfo(size, screen)
-    pickle.dump(countryData, open(selection[1], "wb" ) )
+    pickle.dump(countryData, open(selection[1], "wb" ))
     
     screen.fill([30,144,255])
     screen.blit(pygame.image.load("risk.png"), [(size[0]/2)-233, 100])
@@ -62,7 +62,7 @@ del loadFromFile
 
 if selection[0]=="new":
     players=[]
-    for i in range(selection[3]):
+    for i in range(int(selection[3])):
         players+= [Player(i)]
     
     
@@ -95,6 +95,8 @@ ZOOMOUT=False
 
 debug = False
 
+gameName=selection[1]
+
 leftMouseDown=False
 
 select=False
@@ -105,6 +107,15 @@ while True:
     #get events
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
+            loadFromFile=pickle.load(open(selection[1],"rb"))
+            try:
+                for country in countryObjects:
+                    country.picklePrep()
+                pickle.dump(countryObjects, open(gameName, "wb" ))
+            except Exception as e:
+                print(e)
+                pickle.dump(loadFromFile, open(gameName, "wb" ))
+            del loadFromFile
             sys.exit()
         if event.type == pygame.MOUSEMOTION:
             mousePos = pygame.mouse.get_pos()
