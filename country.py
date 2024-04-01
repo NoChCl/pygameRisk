@@ -134,10 +134,19 @@ class Country():
         
         self.zoomLvl=1
         
+        self.__init__regions=self.regions
+        self.__init__small=self.small
+        self.__init__big=self.big
+        
         
     def picklePrep(self):
+        self.regions=self.__init__regions
+        self.small=self.__init__small
         self.image = None
         self.mask = None
+        self.zoomLvl=1
+        self.rect=None
+        self.big=self.__init__big
         pass
         
     def unpickle(self):
@@ -145,7 +154,6 @@ class Country():
         self.image = pygame.Surface(self.screenSize, flags=pygame.SRCALPHA)
         #r=self.image.get_rect()
         #r.move(small)
-        
         for region in self.regions:
             pygame.draw.polygon(self.image, self.color, region)
             pygame.draw.polygon(self.image, [0, 0, 0,255], region, 1)
@@ -154,11 +162,9 @@ class Country():
         self.rect = self.rect.move(self.small)
         
         self.mask = pygame.mask.from_surface(self.image)
-        
-        for region in self.regions:
-            for point in region:
-                point[0]+=self.small[0]
-                point[1]+=self.small[1]
+                
+        self.pos=[0,0]
+
         self.makeRects()
         
     
@@ -226,6 +232,10 @@ class Country():
         '''
         
     def zoom(self, direction):
+        for region in self.regions:
+            for point in region:
+                point[0]+=self.small[0]
+                point[1]+=self.small[1]
         if direction =="-":
             self.zoomLvl/=1.25
             self.pos[0]/=1.25
@@ -288,18 +298,14 @@ class Country():
         
         self.mask = pygame.mask.from_surface(self.image)
         
-        for region in self.regions:
-            for point in region:
-                point[0]+=small[0]
-                point[1]+=small[1]
-        
         m=[self.pos[0]+(self.size[0]/2), self.pos[1]+(self.size[1]/2)]
-        
         
         self.rect = self.rect.move(m)
         if self.name=="united states":
             #print(self.pos)
             pass
+        self.small=small
+        self.big=big
         
     def __str__(self):
         s=self.name
