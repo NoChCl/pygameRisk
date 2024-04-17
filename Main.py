@@ -102,13 +102,24 @@ leftMouseDown=False
 select=False
 
 t=0
-
+        
 while True:
     #get events
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
             loadFromFile=pickle.load(open(selection[1],"rb"))
             try:
+                if zoom==0:
+                    countryObjects=action(countryObjects, "+")
+                elif zoom==1:
+                    pass
+                else:
+                    zoom-=1
+                    print("so far good")
+                    print(zoom)
+                    for x in range(zoom):
+                        countryObjects=action(countryObjects, "-")
+
                 for country in countryObjects:
                     country.picklePrep()
                 pickle.dump(countryObjects, open(gameName, "wb" ))
@@ -264,8 +275,9 @@ while True:
         
     leftMouseDown=False
     #end country select
-            
-            
+    
+    
+    
     #put things on screen
     screen.fill([30,144,255])
     
@@ -276,7 +288,7 @@ while True:
     updateScreen(selectedCountry, screen)
             
     if debug:
-        text = font.render("FPS: "+str(clock.get_fps()), True, ((255/2)-40, (255/2)-40, (255/2)-40))
+        text = font.render("FPS: "+str(int(100*clock.get_fps())/100), True, ((255/2)-40, (255/2)-40, (255/2)-40))
         textpos = text.get_rect(x=10, y=0)
         screen.blit(text, textpos)
             

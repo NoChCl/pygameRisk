@@ -31,8 +31,15 @@ def updateScreen(selectedCountry, screen):
     screen.blit(text, textpos)
     
     try:
+        text = font.render("Abbreviation: "+str(selectedCountry.abr), True, (10, 10, 10))
+    except:
+        text=font.render("Abbreviation: N/A", True, (10, 10, 10))
+    textpos = text.get_rect(x=10, y=615)
+    screen.blit(text, textpos)
+    
+    try:
         text = font.render("Borders: "+str(selectedCountry.borders), True, (10, 10, 10))
     except:
         text=font.render("Borders: N/A", True, (10, 10, 10))
-    textpos = text.get_rect(x=10, y=615)
+    textpos = text.get_rect(x=10, y=635)
     screen.blit(text, textpos)

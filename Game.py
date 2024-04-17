@@ -47,8 +47,8 @@ class Game():
                         player.countrys+=[countrys.pop(random.randint(0,(len(countrys)-1)))]
             self.countryObjects=[]
             for player in self.players:
-                print(player)
-                print("-----------------------------------")
+                #print(player)
+                #print("-----------------------------------")
                 for country in player.countrys:
                     country.controled=player
                     countryObjects+=[country]

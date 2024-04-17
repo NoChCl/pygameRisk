@@ -138,6 +138,8 @@ class Country():
         self.__init__small=self.small
         self.__init__big=self.big
         
+        #self.pos=[self.size[0]/2,self.size[1]/2]
+        
         
     def picklePrep(self):
         self.regions=self.__init__regions
@@ -147,7 +149,7 @@ class Country():
         self.zoomLvl=1
         self.rect=None
         self.big=self.__init__big
-        pass
+
         
     def unpickle(self):
         #self.image = pygame.image.frombytes(self.image)
@@ -163,9 +165,11 @@ class Country():
         
         self.mask = pygame.mask.from_surface(self.image)
                 
-        self.pos=[0,0]
+        self.pos=[-self.size[0]/2,-self.size[1]/2]
 
         self.makeRects()
+        
+        self.firstZoom=True
         
     
     def makeRects(self):
@@ -184,7 +188,6 @@ class Country():
     
     def update(self):
         if self.name=="united states":
-            #print(self.pos)
             pass
             
         if self.pos[0]>=self.size[0]/2*self.zoomLvl:
@@ -214,23 +217,6 @@ class Country():
         for rect in self.rects:
             screen.blit(self.image, rect)
         
-        '''
-        #center
-        screen.blit(self.image, self.rect)
-        screen.blit(self.image, self.rect.move([0, self.size[1]*self.zoomLvl]))
-        screen.blit(self.image, self.rect.move([0, -self.size[1]*self.zoomLvl]))
-        
-        #right side
-        screen.blit(self.image, self.rect.move([self.size[0]*self.zoomLvl, self.size[1]*self.zoomLvl]))
-        screen.blit(self.image, self.rect.move([self.size[0]*self.zoomLvl, 0]))
-        screen.blit(self.image, self.rect.move([self.size[0]*self.zoomLvl, -self.size[1]*self.zoomLvl]))
-        
-        #left side
-        screen.blit(self.image, self.rect.move([-self.size[0]*self.zoomLvl, -self.size[1]*self.zoomLvl]))
-        screen.blit(self.image, self.rect.move([-self.size[0]*self.zoomLvl, 0]))
-        screen.blit(self.image, self.rect.move([-self.size[0]*self.zoomLvl, self.size[1]*self.zoomLvl]))
-        '''
-        
     def zoom(self, direction):
         for region in self.regions:
             for point in region:
@@ -250,9 +236,7 @@ class Country():
             self.pos[1]*=1.25
             for region in self.regions:
                 for point in region:
-                    #point[0]-=self.size[0]/2
                     point[0]*=1.25
-                    #point[1]-=self.size[1]/2
                     point[1]*=1.25
 
         
@@ -286,8 +270,6 @@ class Country():
                 point[1]-=small[1]
             
         self.image = pygame.Surface(screenSize, flags=pygame.SRCALPHA)
-        #r=self.image.get_rect()
-        #r.move(small)
         
         for region in self.regions:
             pygame.draw.polygon(self.image, self.color, region)
@@ -297,15 +279,24 @@ class Country():
         self.rect = self.rect.move(small)
         
         self.mask = pygame.mask.from_surface(self.image)
-        
         m=[self.pos[0]+(self.size[0]/2), self.pos[1]+(self.size[1]/2)]
+        #print(m)
+        #m=[self.pos[0], self.pos[1]]
         
         self.rect = self.rect.move(m)
+        
+        # ~ if self.firstZoom:
+            # ~ self.rect = self.rect.move(-self.size[0],-self.size[1])
+        
         if self.name=="united states":
-            #print(self.pos)
             pass
         self.small=small
         self.big=big
+        
+        
+        
+        self.firstZoom=False
+        
         
     def __str__(self):
         s=self.name
@@ -325,7 +316,7 @@ if __name__ == "__main__":
     pygame.display.set_caption("RISK")
     clock = pygame.time.Clock();
     
-    us = Country((1024,768), "united states of america", False)
+    us = Country((1024,768), "russia", False)
     
     works=False
     while not works:
