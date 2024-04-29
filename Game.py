@@ -126,6 +126,8 @@ def action(countries, action):
 def getInfo(size, screen):
     font = pygame.font.Font(None, 16)
     
+    killSizeThreshold=2500
+    
     countryObjects=[]
     names = []
     c = CountryInfo()
@@ -173,12 +175,11 @@ def getInfo(size, screen):
         except:
             pass
         
-        
-    # ~ #Sweden just doesn't work, so why let it?
-    # ~ for country in countryObjects:
-        # ~ if country.name == "sweden":
-            # ~ countryObjects.remove(country)
-            # ~ break
+    for country in countryObjects:
+        if country.info.area()==None:
+            pass
+        elif country.info.area()<=killSizeThreshold:
+            countryObjects.remove(country)
 
     
     return countryObjects

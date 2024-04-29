@@ -102,6 +102,7 @@ leftMouseDown=False
 select=False
 
 t=0
+
         
 while True:
     #get events
@@ -115,8 +116,6 @@ while True:
                     pass
                 else:
                     zoom-=1
-                    print("so far good")
-                    print(zoom)
                     for x in range(zoom):
                         countryObjects=action(countryObjects, "-")
 
