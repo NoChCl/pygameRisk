@@ -34,13 +34,14 @@ textpos = [(size[0]/2)-233, 400]
 screen.blit(text, textpos)
 pygame.display.flip()
 
+gameName=selection[1]
 
 
 if selection[0]=="load":
-    loadFromFile=pickle.load(open(selection[1],"rb"))
+    loadFromFile=pickle.load(open(gameName,"rb"))
 else:
     countryData = getInfo(size, screen)
-    pickle.dump(countryData, open(selection[1], "wb" ))
+    pickle.dump(countryData, open(gameName, "wb" ))
     
     screen.fill([30,144,255])
     screen.blit(pygame.image.load("risk.png"), [(size[0]/2)-233, 100])
@@ -52,7 +53,7 @@ else:
 
     
     del countryData
-    loadFromFile=pickle.load(open(selection[1],"rb"))
+    loadFromFile=pickle.load(open(gameName,"rb"))
     
     
 
@@ -108,25 +109,7 @@ while True:
     #get events
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
-            loadFromFile=pickle.load(open(selection[1],"rb"))
-            try:
-                if zoom==0:
-                    countryObjects=action(countryObjects, "+")
-                elif zoom==1:
-                    pass
-                else:
-                    zoom-=1
-                    for x in range(zoom):
-                        countryObjects=action(countryObjects, "-")
-
-                for country in countryObjects:
-                    country.picklePrep()
-                pickle.dump(countryObjects, open(gameName, "wb" ))
-            except Exception as e:
-                print(e)
-                pickle.dump(loadFromFile, open(gameName, "wb" ))
-            del loadFromFile
-            sys.exit()
+            quitGame(countryObjects, gameName, zoom, screen, size)
         if event.type == pygame.MOUSEMOTION:
             mousePos = pygame.mouse.get_pos()
         if event.type == pygame.MOUSEBUTTONDOWN:

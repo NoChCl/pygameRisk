@@ -6,7 +6,7 @@ except:
 
 class Neutral:
     def __init__(self, country):
-        self.countrys=[country]
+        self.country=country
         self.name="__Neutral__"
         
     def attack(self):
@@ -23,5 +23,5 @@ class Neutral:
         return roll
     def __str__(self):
         c="Neutral\n"
-        c+=str(self.countrys.name)
+        c+=str(self.country.name)
         return c

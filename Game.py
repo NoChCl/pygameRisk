@@ -1,4 +1,4 @@
-import pygame, sys, math, random
+import pygame, sys, math, random, pickle
 from countryinfo import *
 try:   
     from Country import *
@@ -119,8 +119,39 @@ def action(countries, action):
     
     
     
+def quitGame(countryObjects, gameName, zoom, screen, size):
+    fade=pygame.Surface(size)
+    fade.fill([0,0,0])
+    fade.set_alpha(150)
+    screen.blit(fade, [0,0])
     
+    font = pygame.font.Font(None, 100)
+    text = font.render("Quitting", True, (255, 255, 255))
+    textpos = text.get_rect(x=575, y=300)
+    print(textpos)
+    screen.blit(text, textpos)
     
+    pygame.display.flip()
+    
+    loadFromFile=pickle.load(open(gameName,"rb"))
+    try:
+        if zoom==0:
+            countryObjects=action(countryObjects, "+")
+        elif zoom==1:
+            pass
+        else:
+            zoom-=1
+            for x in range(zoom):
+                countryObjects=action(countryObjects, "-")
+
+        for country in countryObjects:
+            country.picklePrep()
+        pickle.dump(countryObjects, open(gameName, "wb" ))
+    except Exception as e:
+        print(e)
+        pickle.dump(loadFromFile, open(gameName, "wb" ))
+    del loadFromFile
+    sys.exit()
     
     
 def getInfo(size, screen):
