@@ -6,14 +6,15 @@ except:
 
 class Neutral:
     def __init__(self, country):
-        self.country=country
+        self.countrys=[country]
         self.name="__Neutral__"
+        self.countrys[0].troops=2
         
     def attack(self):
         pass
     
     def defend(self):
-        nTroops=self.country.troops
+        nTroops=self.countrys[0].troops
         
         if Ntroops >=2:
             roll=2
@@ -23,5 +24,5 @@ class Neutral:
         return roll
     def __str__(self):
         c="Neutral\n"
-        c+=str(self.country.name)
+        c+=str(self.countrys[0].name)
         return c

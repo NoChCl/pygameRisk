@@ -52,6 +52,8 @@ class Game():
                 for country in player.countrys:
                     country.controled=player
                     countryObjects+=[country]
+    
+    
         
         
 
@@ -128,7 +130,6 @@ def quitGame(countryObjects, gameName, zoom, screen, size):
     font = pygame.font.Font(None, 100)
     text = font.render("Quitting", True, (255, 255, 255))
     textpos = text.get_rect(x=575, y=300)
-    print(textpos)
     screen.blit(text, textpos)
     
     pygame.display.flip()

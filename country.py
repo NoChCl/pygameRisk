@@ -61,7 +61,7 @@ class Country():
         #size is size
         self.size = size
         #start troops is 0
-        self.troops = 0
+        self.troops = 1
         #starts uncontroled
         self.controled = None
         

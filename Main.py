@@ -62,12 +62,12 @@ countryObjects=decode(loadFromFile, screen, size)
 del loadFromFile
 
 if selection[0]=="new":
-    players=[]
-    for i in range(int(selection[3])):
-        players+= [Player(i)]
+    # ~ players=[]
+    # ~ for i in range(int(selection[3])):
+        # ~ players+= [Player(i)]
     
     
-    game=Game(players, selection[2], countryObjects)
+    game=Game(selection[3], selection[2], countryObjects)
     
 # ~ #makes all country objects
 #countryObjects=getInfo(size, screen)
@@ -103,6 +103,8 @@ leftMouseDown=False
 select=False
 
 t=0
+
+phase
 
         
 while True:

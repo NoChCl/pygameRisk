@@ -178,11 +178,11 @@ def menu(size, screen):
                                         if pygame.mouse.get_pressed()[0]:
                                             leftMouseDown=True
                                 if leftMouseDown:
-                                    if selectButton.clicked(mousePos):
-                                        new=makeGame(size, screen)
-                                        mousePos = pygame.mouse.get_pos()
-                                        if not new == None:
-                                            return["new",new[0],"select", new[1]]
+                                    # ~ if selectButton.clicked(mousePos):
+                                        # ~ new=makeGame(size, screen)
+                                        # ~ mousePos = pygame.mouse.get_pos()
+                                        # ~ if not new == None:
+                                            # ~ return["new",new[0],"select", new[1]]
                                     if randomButton.clicked(mousePos):
                                         new=makeGame(size, screen)
                                         mousePos = pygame.mouse.get_pos()
@@ -272,8 +272,10 @@ def makeGame(size, screen):
             if backArrow.clicked(mousePos):
                 return None
             if ENTERBUTTON.clicked(mousePos):
-                #submit()
-                return ["games/"+gameName.getText()+".info", playerNumber.getText()]
+                players=[]
+                for i in range(int(playerNumber.getText())):
+                    players+= [Player(i)]
+                return ["games/"+gameName.getText()+".info", players]
         
         
         screen.blit(fade, [400, 0])
@@ -302,6 +304,8 @@ def numbOut(submit=False):
         try:
             pn = int(playerNumber.getText())
         except:
+            if playerNumber.getText() ==None:
+                pn=2
             print("ERROR!!!!!!!")
             pn=2
 
