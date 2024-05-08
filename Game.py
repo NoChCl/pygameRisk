@@ -52,6 +52,18 @@ class Game():
                 for country in player.countrys:
                     country.controled=player
                     countryObjects+=[country]
+                    
+    def play(self, player, phase):
+        if phase == "placement":
+            pass
+        elif phase == "attack":
+            pass
+        elif phase == "movement":
+            pass
+        else:
+            print("Error, phase"+phase+"is not recognised, valid phases are: placement, attack, and movement")
+            quit()
+        
     
     
         

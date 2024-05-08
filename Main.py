@@ -26,6 +26,7 @@ font = pygame.font.Font(None, 16)
 selection = menu(size, screen)
 
 
+
 screen.fill([30,144,255])
 screen.blit(pygame.image.load("risk.png"), [(size[0]/2)-233, 100])
 font = pygame.font.Font(None, 32)
@@ -40,35 +41,19 @@ gameName=selection[1]
 if selection[0]=="load":
     loadFromFile=pickle.load(open(gameName,"rb"))
 else:
-    countryData = getInfo(size, screen)
-    pickle.dump(countryData, open(gameName, "wb" ))
+    loadFromFile = getInfo(size, screen)
     
-    screen.fill([30,144,255])
-    screen.blit(pygame.image.load("risk.png"), [(size[0]/2)-233, 100])
-    font = pygame.font.Font(None, 32)
-    text = font.render("Loading...", True, (10, 10, 10))
-    textpos = [(size[0]/2)-233, 400]
-    screen.blit(text, textpos)
-    pygame.display.flip()
-
-    
-    del countryData
-    loadFromFile=pickle.load(open(gameName,"rb"))
-    
-    
-
 countryObjects=decode(loadFromFile, screen, size)
 
 del loadFromFile
 
 if selection[0]=="new":
-    # ~ players=[]
-    # ~ for i in range(int(selection[3])):
-        # ~ players+= [Player(i)]
-    
-    
-    game=Game(selection[3], selection[2], countryObjects)
-    
+    pass
+    #pickle.dump(game, open(gameSave, "wb" ))
+else:
+    #game=pickle.load(open(gameSave,"rb"))
+    pass
+
 # ~ #makes all country objects
 #countryObjects=getInfo(size, screen)
 
@@ -104,7 +89,8 @@ select=False
 
 t=0
 
-phase
+phase="placement"
+#currentPlayer=players[0]
 
         
 while True:
@@ -175,7 +161,7 @@ while True:
             if  event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                 RIGHT=False
         
-
+    #zoooooms
     if zoomIn and shift:
         zoom+=1
         countryObjects=action(countryObjects, "+")
@@ -198,8 +184,6 @@ while True:
         UP=False
         DOWN=UP  
         
-    
-    
     
     #moving the countrys
     if UP and not shift:countryObjects=action(countryObjects, "moveU")
@@ -259,6 +243,19 @@ while True:
         
     leftMouseDown=False
     #end country select
+    
+    
+    #place for game to run
+    
+    #game.play(currentPlayer, phase)
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
