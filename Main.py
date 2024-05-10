@@ -23,8 +23,8 @@ pygame.display.set_caption("RISK")
 clock = pygame.time.Clock();
 font = pygame.font.Font(None, 16)
 
+#menu
 selection = menu(size, screen)
-
 
 
 screen.fill([30,144,255])
@@ -43,19 +43,15 @@ if selection[0]=="load":
 else:
     loadFromFile = getInfo(size, screen)
     
+
+
+
 countryObjects=decode(loadFromFile, screen, size)
+
+game=Game(selection[2], selection[0], countryObjects)
 
 del loadFromFile
 
-if selection[0]=="new":
-    pass
-    #pickle.dump(game, open(gameSave, "wb" ))
-else:
-    #game=pickle.load(open(gameSave,"rb"))
-    pass
-
-# ~ #makes all country objects
-#countryObjects=getInfo(size, screen)
 
 # ~ #makes a country actualy be selected
 selectedCountry=None

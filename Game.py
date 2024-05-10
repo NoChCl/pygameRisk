@@ -164,6 +164,7 @@ def quitGame(countryObjects, gameName, zoom, screen, size):
         print(e)
         pickle.dump(loadFromFile, open(gameName, "wb" ))
     del loadFromFile
+    print("safe to quit")
     sys.exit()
     
     
