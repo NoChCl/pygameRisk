@@ -41,10 +41,22 @@ gameName=selection[1]
 if selection[0]=="load":
     loadFromFile=pickle.load(open(gameName,"rb"))
 else:
-    loadFromFile = getInfo(size, screen)
+    countryData = getInfo(size, screen)
+    pickle.dump(countryData, open(gameName, "wb" ))
     
+    screen.fill([30,144,255])
+    screen.blit(pygame.image.load("risk.png"), [(size[0]/2)-233, 100])
+    font = pygame.font.Font(None, 32)
+    text = font.render("Loading...", True, (10, 10, 10))
+    textpos = [(size[0]/2)-233, 400]
+    screen.blit(text, textpos)
+    pygame.display.flip()
 
-
+    
+    del countryData
+    loadFromFile=pickle.load(open(gameName,"rb"))
+    
+    
 
 countryObjects=decode(loadFromFile, screen, size)
 
@@ -52,6 +64,16 @@ game=Game(selection[2], selection[0], countryObjects)
 
 del loadFromFile
 
+if selection[0]=="new":
+    players=[]
+    for i in range(int(selection[3])):
+        players+= [Player(i)]
+    
+    
+    game=Game(players, selection[2], countryObjects)
+    
+# ~ #makes all country objects
+#countryObjects=getInfo(size, screen)
 
 # ~ #makes a country actualy be selected
 selectedCountry=None
