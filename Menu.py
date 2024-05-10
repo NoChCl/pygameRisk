@@ -273,7 +273,11 @@ def makeGame(size, screen):
                 return None
             if ENTERBUTTON.clicked(mousePos):
                 #submit()
-                return ["games/"+gameName.getText()+".info", playerNumber.getText()]
+                players=[]
+                for i in range(int(playerNumber.getText())):
+                    players+= [Player(i)]
+    
+                return ["games/"+gameName.getText()+".info",players]
         
         
         screen.blit(fade, [400, 0])

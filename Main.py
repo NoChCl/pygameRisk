@@ -47,17 +47,12 @@ else:
 
 countryObjects=decode(loadFromFile, screen, size)
 
-game=Game(selection[2], selection[0], countryObjects)
+#game=Game(selection[2], selection[0], countryObjects)
 
 del loadFromFile
 
 if selection[0]=="new":
-    players=[]
-    for i in range(int(selection[3])):
-        players+= [Player(i)]
-    
-    
-    game=Game(players, selection[2], countryObjects)
+    game=Game(selection[3], selection[2], countryObjects)
     
 # ~ #makes all country objects
 #countryObjects=getInfo(size, screen)
