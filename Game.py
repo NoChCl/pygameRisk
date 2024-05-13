@@ -146,7 +146,6 @@ def quitGame(countryObjects, gameName, zoom, screen, size):
     
     pygame.display.flip()
     
-    loadFromFile=pickle.load(open(gameName,"rb"))
     try:
         if zoom==0:
             countryObjects=action(countryObjects, "+")
@@ -162,8 +161,7 @@ def quitGame(countryObjects, gameName, zoom, screen, size):
         pickle.dump(countryObjects, open(gameName, "wb" ))
     except Exception as e:
         print(e)
-        pickle.dump(loadFromFile, open(gameName, "wb" ))
-    del loadFromFile
+        print("didnt nsave :(")
     print("safe to quit")
     sys.exit()
     
