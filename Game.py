@@ -133,7 +133,7 @@ def action(countries, action):
     
     
     
-def quitGame(countryObjects, gameName, zoom, screen, size):
+def quitGame(game, countryObjects, gameName, zoom, screen, size):
     fade=pygame.Surface(size)
     fade.fill([0,0,0])
     fade.set_alpha(150)
@@ -158,10 +158,13 @@ def quitGame(countryObjects, gameName, zoom, screen, size):
 
         for country in countryObjects:
             country.picklePrep()
-        pickle.dump(countryObjects, open(gameName, "wb" ))
+        
+        game.countryObjects=countryObjects
+        
+        pickle.dump(game, open(gameName, "wb" ))
     except Exception as e:
         print(e)
-        print("didnt nsave :(")
+        print("didnt save :(")
     print("safe to quit")
     sys.exit()
     

@@ -18,7 +18,7 @@ faulthandler.enable()
 pygame.init()
 print("Thank you for using countryinfo: https://pypi.org/project/countryinfo/")
 size = [1440, 720]
-screen = pygame.display.set_mode(size)
+screen = pygame.display.set_mode(size, flags=pygame.RESIZABLE)
 pygame.display.set_caption("RISK")
 clock = pygame.time.Clock();
 font = pygame.font.Font(None, 16)
@@ -40,27 +40,22 @@ gameName=selection[1]
 
 if selection[0]=="load":
     loadFromFile=pickle.load(open(gameName,"rb"))
+    game=loadFromFile
+    countryObjects=decode(game.countryObjects, screen, size)
 else:
     loadFromFile=getInfo(size, screen)
-    
-    
-
-countryObjects=decode(loadFromFile, screen, size)
-
-#game=Game(selection[2], selection[0], countryObjects)
+    countryObjects=decode(loadFromFile, screen, size)
+    game=Game(selection[3], selection[2], countryObjects)
 
 del loadFromFile
 
-if selection[0]=="new":
-    game=Game(selection[3], selection[2], countryObjects)
-    
-# ~ #makes all country objects
-#countryObjects=getInfo(size, screen)
+players=game.players
 
-# ~ #makes a country actualy be selected
+
+#makes a country actualy be selected
 selectedCountry=None
 
-# ~ #mouse mask
+#mouse mask
 mousePos=pygame.mouse.get_pos()
 mouse=pygame.Surface([1,1])
 mouseMask=pygame.mask.from_surface(mouse)
@@ -90,14 +85,14 @@ select=False
 t=0
 
 phase="placement"
-#currentPlayer=players[0]
+currentPlayer=players[0]
 
         
 while True:
     #get events
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
-            quitGame(countryObjects, gameName, zoom, screen, size)
+            quitGame(game, countryObjects, gameName, zoom, screen, size)
         if event.type == pygame.MOUSEMOTION:
             mousePos = pygame.mouse.get_pos()
         if event.type == pygame.MOUSEBUTTONDOWN:
