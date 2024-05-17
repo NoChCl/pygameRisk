@@ -87,8 +87,11 @@ t=0
 phase="placement"
 currentPlayer=players[0]
 
+
         
 while True:
+    if players.index(currentPlayer)==len(players):
+        currentPlayer=players[0]
     #get events
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
@@ -134,7 +137,6 @@ while True:
                 t-=1
                 if t==-1:
                     t=len(countryObjects)-1
-                    
                 
         if event.type == pygame.KEYUP:
             if  event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
@@ -242,7 +244,16 @@ while True:
     
     #place for game to run
     
-    #game.play(currentPlayer, phase)
+    if currentPlayer.name=="__Neutral__":
+        while currentPlayer.name=="__Neutral__":
+            if players.index(currentPlayer)==len(players)-1:
+                currentPlayer=players[0]
+
+            currentPlayer=players[players.index(currentPlayer)+1]
+            print("moved players")
+
+    
+    game.play(currentPlayer, phase)
     
     
     

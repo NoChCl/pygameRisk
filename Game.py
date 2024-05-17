@@ -52,6 +52,7 @@ class Game():
                 for country in player.countrys:
                     country.controled=player
                     countryObjects+=[country]
+        players+=[None]
                     
     def play(self, player, phase):
         if phase == "placement":
