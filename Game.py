@@ -298,6 +298,6 @@ def getScaledMouse():
     
     mousex,mousey=pygame.mouse.get_pos()
     
-    return [xScale*mousex, yScale*mousey]
+    return [xScale*mousex+offset[0], yScale*mousey+offset[1]]
     
     
