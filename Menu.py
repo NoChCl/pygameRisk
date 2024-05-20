@@ -13,7 +13,7 @@ import pygame_widgets
 from pygame_widgets.textbox import TextBox
 
 
-def menu(size, screen):
+def menu(size, screen, window):
     menuOpen=True
     
     #newGame
@@ -98,7 +98,7 @@ def menu(size, screen):
     backArrow=menuObject(pygame.image.load("backArrow.png"),[10,10])
     
     
-    mousePos = pygame.mouse.get_pos()
+    mousePos = getScaledMouse()
     
     leftMouseDown=False
     
@@ -110,14 +110,14 @@ def menu(size, screen):
         screen.blit(pygame.image.load("menuBg.png"), (0,0))
         for event in pygame.event.get():
             if event.type == pygame.MOUSEMOTION:
-                mousePos = pygame.mouse.get_pos()
+                mousePos = getScaledMouse()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if pygame.mouse.get_pressed()[0]:
                     leftMouseDown=True
             if event.type==pygame.QUIT:
                 sys.exit()
             if event.type == pygame.MOUSEMOTION:
-                mousePos = pygame.mouse.get_pos()
+                mousePos = getScaledMouse()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if pygame.mouse.get_pressed()[0]:
                     leftMouseDown=True
@@ -125,8 +125,8 @@ def menu(size, screen):
             if quitButton.clicked(mousePos):
                 quit()
             if loadGameButton.clicked(mousePos):
-                load=loadGame(screen)
-                mousePos = pygame.mouse.get_pos()
+                load=loadGame(screen, window)
+                mousePos = getScaledMouse()
                 if not load==None:
                     return load
             if newGameButton.clicked(mousePos):
@@ -138,14 +138,14 @@ def menu(size, screen):
                     screen.blit(pygame.image.load("menuBg.png"), (0,0))
                     for event in pygame.event.get():
                         if event.type == pygame.MOUSEMOTION:
-                            mousePos = pygame.mouse.get_pos()
+                            mousePos = getScaledMouse()
                         if event.type == pygame.MOUSEBUTTONDOWN:
                             if pygame.mouse.get_pressed()[0]:
                                 leftMouseDown=True
                         if event.type==pygame.QUIT:
                             sys.exit()
                         if event.type == pygame.MOUSEMOTION:
-                            mousePos = pygame.mouse.get_pos()
+                            mousePos = getScaledMouse()
                         if event.type == pygame.MOUSEBUTTONDOWN:
                             if pygame.mouse.get_pressed()[0]:
                                 leftMouseDown=True
@@ -153,8 +153,8 @@ def menu(size, screen):
                         if backArrow.clicked(mousePos):
                             newGame=False
                         if neutralButton.clicked(mousePos):
-                            new=makeGame(size, screen)
-                            mousePos = pygame.mouse.get_pos()
+                            new=makeGame(size, screen, window)
+                            mousePos = getScaledMouse()
                             if not new == None:
                                 return["new",new[0], "neutral", new[1]]
                         if equalButton.clicked(mousePos):
@@ -166,26 +166,26 @@ def menu(size, screen):
                                 screen.blit(pygame.image.load("menuBg.png"), (0,0))
                                 for event in pygame.event.get():
                                     if event.type == pygame.MOUSEMOTION:
-                                        mousePos = pygame.mouse.get_pos()
+                                        mousePos = getScaledMouse()
                                     if event.type == pygame.MOUSEBUTTONDOWN:
                                         if pygame.mouse.get_pressed()[0]:
                                             leftMouseDown=True
                                     if event.type==pygame.QUIT:
                                         sys.exit()
                                     if event.type == pygame.MOUSEMOTION:
-                                        mousePos = pygame.mouse.get_pos()
+                                        mousePos = getScaledMouse()
                                     if event.type == pygame.MOUSEBUTTONDOWN:
                                         if pygame.mouse.get_pressed()[0]:
                                             leftMouseDown=True
                                 if leftMouseDown:
                                     if selectButton.clicked(mousePos):
-                                        new=makeGame(size, screen)
-                                        mousePos = pygame.mouse.get_pos()
+                                        new=makeGame(size, screen,window)
+                                        mousePos = getScaledMouse()
                                         if not new == None:
                                             return["new",new[0],"select", new[1]]
                                     if randomButton.clicked(mousePos):
-                                        new=makeGame(size, screen)
-                                        mousePos = pygame.mouse.get_pos()
+                                        new=makeGame(size, screen, window)
+                                        mousePos = getScaledMouse()
                                         if not new == None:
                                             return["new",new[0],"random", new[1]]
                                     if backArrow.clicked(mousePos):
@@ -193,23 +193,20 @@ def menu(size, screen):
                                 screen.blit(backArrow.image, backArrow.rect)
                                 screen.blit(selectButton.image, neutralButton.rect)
                                 screen.blit(randomButton.image, equalButton.rect)
-                                
-                                pygame.display.flip()
+                                makeScreen(screen, window)
                             
                     
                     screen.blit(backArrow.image, backArrow.rect)
                     screen.blit(neutralButton.image, neutralButton.rect)
                     screen.blit(equalButton.image, equalButton.rect)
-                    
-                    pygame.display.flip()
+                    makeScreen(screen, window)
                     
         screen.blit(quitButton.image, quitButton.rect)
         screen.blit(loadGameButton.image, loadGameButton.rect)
         screen.blit(newGameButton.image, newGameButton.rect)
+        makeScreen(screen, window)
         
-        pygame.display.flip()
-        
-def makeGame(size, screen):
+def makeGame(size, screen, window):
     fade=pygame.Surface([600, size[1]])
     fade.fill([255,255,255])
     fade.set_alpha(150)
@@ -247,7 +244,7 @@ def makeGame(size, screen):
     gameName = TextBox(screen, 500, 100, 400, 50, fontSize=30, borderColour=(0, 0, 0), textColour=(0, 0, 0), onSubmit=nameOut, radius=0, borderThickness=1)
     playerNumber = TextBox(screen, 500, 195, 400, 50, fontSize=30, borderColour=(0, 0, 0), textColour=(0, 0, 0), onSubmit=numbOut, radius=0, borderThickness=1)
     
-    mousePos = pygame.mouse.get_pos()
+    mousePos = getScaledMouse()
     
     newGame=True
     while newGame:
@@ -257,14 +254,14 @@ def makeGame(size, screen):
         events=pygame.event.get()
         for event in events:
             if event.type == pygame.MOUSEMOTION:
-                mousePos = pygame.mouse.get_pos()
+                mousePos = getScaledMouse()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if pygame.mouse.get_pressed()[0]:
                     leftMouseDown=True
             if event.type==pygame.QUIT:
                 sys.exit()
             if event.type == pygame.MOUSEMOTION:
-                mousePos = pygame.mouse.get_pos()
+                mousePos = getScaledMouse()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if pygame.mouse.get_pressed()[0]:
                     leftMouseDown=True
@@ -288,8 +285,7 @@ def makeGame(size, screen):
         pygame_widgets.update(events)
         for x, text in enumerate(texts):
             screen.blit(text, textsPos[x])
-        
-        pygame.display.update()
+        makeScreen(screen, window)
 
     
 #functions for textbox    
@@ -311,7 +307,7 @@ def numbOut(submit=False):
 
 
 
-def loadGame(screen):
+def loadGame(screen, window):
     backArrow=menuObject(pygame.image.load("backArrow.png"),[10,10])
     
     font = pygame.font.Font(None, 80)
@@ -338,14 +334,14 @@ def loadGame(screen):
         screen.blit(pygame.image.load("menuBg.png"), (0,0))
         for event in pygame.event.get():
             if event.type == pygame.MOUSEMOTION:
-                mousePos = pygame.mouse.get_pos()
+                mousePos = getScaledMouse()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if pygame.mouse.get_pressed()[0]:
                     leftMouseDown=True
             if event.type==pygame.QUIT:
                 sys.exit()
             if event.type == pygame.MOUSEMOTION:
-                mousePos = pygame.mouse.get_pos()
+                mousePos = getScaledMouse()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if pygame.mouse.get_pressed()[0]:
                     leftMouseDown=True
@@ -360,7 +356,7 @@ def loadGame(screen):
             screen.blit(button.image, button.rect)
         screen.blit(backArrow.image, backArrow.rect)
         screen.blit(gameText, gameTextPos)
-        pygame.display.flip()
+        makeScreen(screen, window)
     
     
 class menuObject():

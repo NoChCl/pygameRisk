@@ -18,13 +18,14 @@ faulthandler.enable()
 pygame.init()
 print("Thank you for using countryinfo: https://pypi.org/project/countryinfo/")
 size = [1440, 720]
-screen = pygame.display.set_mode(size, flags=pygame.RESIZABLE)
+screen=pygame.Surface(size)
+window = pygame.display.set_mode(size, flags=pygame.RESIZABLE)
 pygame.display.set_caption("RISK")
 clock = pygame.time.Clock();
 font = pygame.font.Font(None, 16)
 
 #menu
-selection = menu(size, screen)
+selection = menu(size, screen, window)
 
 
 screen.fill([30,144,255])
@@ -33,7 +34,7 @@ font = pygame.font.Font(None, 32)
 text = font.render("Loading...", True, (10, 10, 10))
 textpos = [(size[0]/2)-233, 400]
 screen.blit(text, textpos)
-pygame.display.flip()
+makeScreen(screen, window)
 
 gameName=selection[1]
 
@@ -41,10 +42,10 @@ gameName=selection[1]
 if selection[0]=="load":
     loadFromFile=pickle.load(open(gameName,"rb"))
     game=loadFromFile
-    countryObjects=decode(game.countryObjects, screen, size)
+    countryObjects=decode(game.countryObjects, screen,window, size)
 else:
-    loadFromFile=getInfo(size, screen)
-    countryObjects=decode(loadFromFile, screen, size)
+    loadFromFile=getInfo(size, screen, window)
+    countryObjects=decode(loadFromFile, screen,window, size)
     game=Game(selection[3], selection[2], countryObjects)
 
 del loadFromFile
@@ -56,7 +57,7 @@ players=game.players
 selectedCountry=None
 
 #mouse mask
-mousePos=pygame.mouse.get_pos()
+mousePos=getScaledMouse()
 mouse=pygame.Surface([1,1])
 mouseMask=pygame.mask.from_surface(mouse)
 
@@ -95,9 +96,9 @@ while True:
     #get events
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
-            quitGame(game, countryObjects, gameName, zoom, screen, size)
+            quitGame(game, countryObjects, gameName, zoom, screen, window, size)
         if event.type == pygame.MOUSEMOTION:
-            mousePos = pygame.mouse.get_pos()
+            mousePos = getScaledMouse()
         if event.type == pygame.MOUSEBUTTONDOWN:
             if pygame.mouse.get_pressed()[0]:
                 leftMouseDown=True
@@ -279,6 +280,6 @@ while True:
         textpos = text.get_rect(x=10, y=0)
         screen.blit(text, textpos)
             
-            
-    pygame.display.flip()
+    makeScreen(screen, window)
+    
     clock.tick(100000)

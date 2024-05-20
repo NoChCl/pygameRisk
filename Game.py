@@ -134,7 +134,7 @@ def action(countries, action):
     
     
     
-def quitGame(game, countryObjects, gameName, zoom, screen, size):
+def quitGame(game, countryObjects, gameName, zoom, screen, window, size):
     fade=pygame.Surface(size)
     fade.fill([0,0,0])
     fade.set_alpha(150)
@@ -145,7 +145,7 @@ def quitGame(game, countryObjects, gameName, zoom, screen, size):
     textpos = text.get_rect(x=575, y=300)
     screen.blit(text, textpos)
     
-    pygame.display.flip()
+    makeScreen(screen, window)
     
     try:
         if zoom==0:
@@ -170,7 +170,7 @@ def quitGame(game, countryObjects, gameName, zoom, screen, size):
     sys.exit()
     
     
-def getInfo(size, screen):
+def getInfo(size, screen, window):
     font = pygame.font.Font(None, 16)
     
     killSizeThreshold=2500
@@ -213,7 +213,7 @@ def getInfo(size, screen):
         textpos = [(size[0]/2)-233, 400]
         screen.blit(text, textpos)
         
-        pygame.display.flip()
+        makeScreen(screen, window)
 
         
         try:
@@ -232,7 +232,7 @@ def getInfo(size, screen):
     return countryObjects
 
 
-def decode(countryObjects, screen, size):
+def decode(countryObjects, screen, window, size):
     l=[0,20]
     font = pygame.font.Font(None, 32)
     for country in countryObjects:
@@ -257,9 +257,47 @@ def decode(countryObjects, screen, size):
         textpos = [(size[0]/2)-233, 400]
         screen.blit(text, textpos)
         
-        pygame.display.flip()
+        makeScreen(screen, window)
         
         country.unpickle()
     
     return countryObjects
+    
+    
+def makeScreen(screen, window):
+    width, height=pygame.display.get_surface().get_size()
+    width=width/1440
+    height=height/720
+    if width==height:
+        window.blit(pygame.transform.scale(screen, [width*1440, height*720]), [0,0])
+    elif width>height:
+        window.blit(pygame.transform.scale(screen, [height*1440, height*720]), [(width-height)*720,0])
+    elif width<height:
+        window.blit(pygame.transform.scale(screen, [width*1440, width*720]), [0,(height-width)*360])
+    else:
+        window.blit(screen, [0,0])
+
+    pygame.display.flip()
+
+def getScaledMouse():
+    x, y=pygame.display.get_surface().get_size()
+    xScale=1440/x
+    yScale=720/y
+    
+    x2=x/1440
+    y2=y/720
+    
+    if x2==y2:
+        offset=[0,0]
+    elif x2>y2:
+        offset=[(x-y)/2,0]
+    elif x2<y2:
+        offset=[0,(y-x)/2]
+    else:
+        print('something went wrong, check function "getScaledMouse"')
+    
+    mousex,mousey=pygame.mouse.get_pos()
+    
+    return [xScale*mousex, yScale*mousey]
+    
     
