@@ -19,7 +19,7 @@ pygame.init()
 print("Thank you for using countryinfo: https://pypi.org/project/countryinfo/")
 size = [1440, 720]
 screen=pygame.Surface(size)
-window = pygame.display.set_mode(size, flags=pygame.RESIZABLE)
+window = pygame.display.set_mode(size)
 pygame.display.set_caption("RISK")
 clock = pygame.time.Clock();
 font = pygame.font.Font(None, 16)
