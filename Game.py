@@ -290,9 +290,9 @@ def getScaledMouse():
     if x2==y2:
         offset=[0,0]
     elif x2>y2:
-        offset=[(x-y)/720,0]
+        offset=[(x2-y2)/720,0]
     elif x2<y2:
-        offset=[0,(y-x)/360]
+        offset=[0,(y2-x2)/360]
     else:
         print('something went wrong, check function "getScaledMouse"')
     
