@@ -287,17 +287,23 @@ def getScaledMouse():
     x2=x/1440
     y2=y/720
     
+    mousex,mousey=pygame.mouse.get_pos()
+
+    
     if x2==y2:
         offset=[0,0]
+        r=[xScale*mousex, yScale*mousey]
     elif x2>y2:
-        offset=[(x2-y2)/720,0]
+        offset=[(x2-y2)*720,0]
+        r=[(xScale*mousex-offset[0]), yScale*mousey]
     elif x2<y2:
-        offset=[0,(y2-x2)/360]
+        offset=[0,(y2-x2)*360]
+        r=[xScale*mousex, (mousey*yScale-offset[1])]
     else:
         print('something went wrong, check function "getScaledMouse"')
     
-    mousex,mousey=pygame.mouse.get_pos()
-    
-    return [xScale*mousex+offset[0], yScale*mousey+offset[1]]
+    #print(offset)
+    print(r)
+    return r
     
     
