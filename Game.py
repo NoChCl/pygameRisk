@@ -295,10 +295,10 @@ def getScaledMouse():
         r=[xScale*mousex, yScale*mousey]
     elif x2>y2:
         offset=[(x2-y2)*720,0]
-        r=[(xScale*mousex-offset[0]), yScale*mousey]
+        r=[yScale*(mousex-offset[0]), yScale*mousey]
     elif x2<y2:
         offset=[0,(y2-x2)*360]
-        r=[xScale*mousex, (mousey*yScale-offset[1])]
+        r=[xScale*mousex, (mousey-offset[1])*xScale]
     else:
         print('something went wrong, check function "getScaledMouse"')
     
