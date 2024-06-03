@@ -145,7 +145,7 @@ def quitGame(game, countryObjects, gameName, zoom, screen, window, size):
     textpos = text.get_rect(x=575, y=300)
     screen.blit(text, textpos)
     
-    makeScreen(screen, window)
+    makeScreen(screen, window, size)
     
     try:
         if zoom==0:
@@ -213,7 +213,7 @@ def getInfo(size, screen, window):
         textpos = [(size[0]/2)-233, 400]
         screen.blit(text, textpos)
         
-        makeScreen(screen, window)
+        makeScreen(screen, window, size)
 
         
         try:
@@ -257,35 +257,35 @@ def decode(countryObjects, screen, window, size):
         textpos = [(size[0]/2)-233, 400]
         screen.blit(text, textpos)
         
-        makeScreen(screen, window)
+        makeScreen(screen, window, size)
         
         country.unpickle()
     
     return countryObjects
     
     
-def makeScreen(screen, window):
+def makeScreen(screen, window, size):
     width, height=pygame.display.get_surface().get_size()
-    width=width/1440
-    height=height/720
+    width=width/size[0]
+    height=height/size[1]
     if width==height:
-        window.blit(pygame.transform.scale(screen, [width*1440, height*720]), [0,0])
+        window.blit(pygame.transform.scale(screen, [width*size[0], height*size[1]]), [0,0])
     elif width>height:
-        window.blit(pygame.transform.scale(screen, [height*1440, height*720]), [(width-height)*720,0])
+        window.blit(pygame.transform.scale(screen, [height*size[0], height*size[1]]), [(width-height)*(size[0]/2),0])
     elif width<height:
-        window.blit(pygame.transform.scale(screen, [width*1440, width*720]), [0,(height-width)*360])
+        window.blit(pygame.transform.scale(screen, [width*size[0], width*size[1]]), [0,(height-width)*(size[1]/2)])
     else:
         window.blit(screen, [0,0])
 
     pygame.display.flip()
 
-def getScaledMouse():
+def getScaledMouse(size):
     x, y=pygame.display.get_surface().get_size()
-    xScale=1440/x
-    yScale=720/y
+    xScale=size[0]/x
+    yScale=size[1]/y
     
-    x2=x/1440
-    y2=y/720
+    x2=x/size[0]
+    y2=y/size[1]
     
     mousex,mousey=pygame.mouse.get_pos()
 
@@ -294,16 +294,13 @@ def getScaledMouse():
         offset=[0,0]
         r=[xScale*mousex, yScale*mousey]
     elif x2>y2:
-        offset=[(x2-y2)*720,0]
+        offset=[(x2-y2)*(size[0]/2),0]
         r=[yScale*(mousex-offset[0]), yScale*mousey]
     elif x2<y2:
-        offset=[0,(y2-x2)*360]
+        offset=[0,(y2-x2)*(size[1]/2)]
         r=[xScale*mousex, (mousey-offset[1])*xScale]
     else:
         print('something went wrong, check function "getScaledMouse"')
-    
-    #print(offset)
-    print(r)
     return r
     
     

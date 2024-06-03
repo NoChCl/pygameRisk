@@ -34,7 +34,7 @@ font = pygame.font.Font(None, 32)
 text = font.render("Loading...", True, (10, 10, 10))
 textpos = [(size[0]/2)-233, 400]
 screen.blit(text, textpos)
-makeScreen(screen, window)
+makeScreen(screen, window, size)
 
 gameName=selection[1]
 
@@ -57,7 +57,7 @@ players=game.players
 selectedCountry=None
 
 #mouse mask
-mousePos=getScaledMouse()
+mousePos=getScaledMouse(size)
 mouse=pygame.Surface([1,1])
 mouseMask=pygame.mask.from_surface(mouse)
 
@@ -98,7 +98,7 @@ while True:
         if event.type==pygame.QUIT:
             quitGame(game, countryObjects, gameName, zoom, screen, window, size)
         if event.type == pygame.MOUSEMOTION:
-            mousePos = getScaledMouse()
+            mousePos = getScaledMouse(size)
         if event.type == pygame.MOUSEBUTTONDOWN:
             if pygame.mouse.get_pressed()[0]:
                 leftMouseDown=True
@@ -195,49 +195,53 @@ while True:
     found=False
     
     #country select
-    if select and leftMouseDown:
-        onCountry=False
-        for country in countryObjects:
-            for rect in country.rects:
-                if country.mask.overlap(mouseMask, (mousePos[0]-rect.x, mousePos[1]-rect.y)):
-                    selectedCountry=country
-                    onCountry=True
-                    found=True
+    if mousePos[0]>0 and mousePos[0]<size[0] and mousePos[1]>0 and mousePos[1]<size[1]:
+        if select and leftMouseDown:
+            onCountry=False
+            for country in countryObjects:
+                for rect in country.rects:
+                    if country.mask.overlap(mouseMask, (mousePos[0]-rect.x, mousePos[1]-rect.y)):
+                        selectedCountry=country
+                        onCountry=True
+                        found=True
+                        break
+                if found:
                     break
-            if found:
-                break
-        if not onCountry:
-            selectedCountry=None
-            select=False
-    elif leftMouseDown:
-        onCountry=False
-        for country in countryObjects:
-            for rect in country.rects:
-                if country.mask.overlap(mouseMask, (mousePos[0]-rect.x, mousePos[1]-rect.y)):
-                    selectedCountry=country
-                    onCountry=True
-                    select=True
-                    found=True
+            if not onCountry:
+                selectedCountry=None
+                select=False
+        elif leftMouseDown:
+            onCountry=False
+            for country in countryObjects:
+                for rect in country.rects:
+                    if country.mask.overlap(mouseMask, (mousePos[0]-rect.x, mousePos[1]-rect.y)):
+                        selectedCountry=country
+                        onCountry=True
+                        select=True
+                        found=True
+                        break
+                if found:
                     break
-            if found:
-                break
-        if not onCountry:
-            selectedCountry=None
-            select=False
-    elif not select and not leftMouseDown:
-        onCountry=False
-        for country in countryObjects:
-            for rect in country.rects:
-                if country.mask.overlap(mouseMask, (mousePos[0]-rect.x, mousePos[1]-rect.y)):
-                    selectedCountry=country
-                    onCountry=True
-                    found=True
+            if not onCountry:
+                selectedCountry=None
+                select=False
+        elif not select and not leftMouseDown:
+            onCountry=False
+            for country in countryObjects:
+                for rect in country.rects:
+                    if country.mask.overlap(mouseMask, (mousePos[0]-rect.x, mousePos[1]-rect.y)):
+                        selectedCountry=country
+                        onCountry=True
+                        found=True
+                        break
+                if found:
                     break
-            if found:
-                break
-        if not onCountry:
-            selectedCountry=None
-            select=False
+            if not onCountry:
+                selectedCountry=None
+                select=False
+    else:
+        selectedCountry=None
+        onCountry=False
         
     leftMouseDown=False
     #end country select
@@ -280,6 +284,6 @@ while True:
         textpos = text.get_rect(x=10, y=0)
         screen.blit(text, textpos)
             
-    makeScreen(screen, window)
+    makeScreen(screen, window, size)
     
     clock.tick(100000)
