@@ -9,8 +9,6 @@ from infoScreen import *
 from Player import *
 from Neutral import *
 
-import pygame_widgets
-from pygame_widgets.textbox import TextBox
 
 
 def menu(size, screen, window):
