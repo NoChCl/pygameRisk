@@ -379,10 +379,12 @@ class menuObject():
         if self.mask.overlap(mouseMask, (mousePos[0]-self.rect.x, mousePos[1]-self.rect.y)):
             return True
 
-#IF THIS BREAKS, ITS NOT MY FALT, I DIDNT BUILD IT!!!
+#IF THIS BREAKS, ITS NOT MY FAULT, I DIDNT BUILD IT!!!
 #https://stackoverflow.com/questions/46390231/how-can-i-create-a-text-input-box-with-pygame
 class InputBox:
     def __init__(self, x, y, w, h, text=''):
+        self.counter=0
+        self.counterMax=100
         FONT = pygame.font.Font(None, h+5)
         self.COLOR_INACTIVE = pygame.Color('lightskyblue3')
         self.COLOR_ACTIVE = pygame.Color('dodgerblue2')
@@ -393,7 +395,6 @@ class InputBox:
         self.active = False
 
     def handle_event(self, event, size):
-        FONT = pygame.font.Font(None, int(self.rect.height)+5)
         if event.type == pygame.MOUSEBUTTONDOWN:
             # If the user clicked on the input_box rect.
             if self.rect.collidepoint(getScaledMouse(size)):
@@ -406,14 +407,12 @@ class InputBox:
         if event.type == pygame.KEYDOWN:
             if self.active:
                 if event.key == pygame.K_RETURN:
-                    print(self.text)
                     self.text = ''
                 elif event.key == pygame.K_BACKSPACE:
                     self.text = self.text[:-1]
                 else:
                     self.text += event.unicode
-                # Re-render the text.
-                self.txt_surface = FONT.render(self.text, True, [0,0,0])
+        
     def getText(self):
         return self.text
     def update(self):
@@ -422,6 +421,17 @@ class InputBox:
         self.rect.w = width
 
     def draw(self, screen):
+        FONT = pygame.font.Font(None, int(self.rect.height)+5)
+        if self.active:
+            text=self.text
+            self.counter+=1
+            if self.counter<=(self.counterMax/2):
+                text+="|"
+            elif self.counter>=self.counterMax:
+                self.counter=0
+            self.txt_surface = FONT.render(text, True, [0,0,0])
+        else:
+            self.counter=0
         # Blit the text.
         screen.blit(self.txt_surface, (self.rect.x+5, self.rect.y+5))
         # Blit the rect.
