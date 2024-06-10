@@ -55,27 +55,27 @@ class Game():
                     countryObjects+=[country]
         players+=[None]
         
-        plusButton=pygame.Surface([110,50])
+        plusButton=pygame.Surface([150,35])
         plusButton.fill([255,255,255])
-        pygame.draw.rect(plusButton, (80,215,240), pygame.Rect(0,0,100,50), width=0, border_radius=25)
+        pygame.draw.rect(plusButton, (80,215,240), pygame.Rect(0,0,125,35), width=0, border_radius=25)
         
         font = pygame.font.Font(None, 25)
         text = font.render("Add 1 Troop", True, (10, 10, 10))
-        textpos = text.get_rect(x=7, y=15)
+        textpos = text.get_rect(x=13, y=8)
         plusButton.blit(text, textpos)
         
         self.placementPlus=buttonObject(plusButton,[1150, 635])
         
-        minusButton=pygame.Surface([120,50])
+        minusButton=pygame.Surface([150,35])
         minusButton.fill([255,255,255])
-        pygame.draw.rect(minusButton, (255,0,0), pygame.Rect(0,0,100,50), width=0, border_radius=25)
+        pygame.draw.rect(minusButton, (255,0,0), pygame.Rect(0,0,125,35), width=0, border_radius=25)
         
         font = pygame.font.Font(None, 25)
         text = font.render("Minus 1 Troop", True, (10, 10, 10))
-        textpos = text.get_rect(x=7, y=15)
+        textpos = text.get_rect(x=7, y=8)
         minusButton.blit(text, textpos)
         
-        self.placementMinus=buttonObject(minusButton,[1250, 635])
+        self.placementMinus=buttonObject(minusButton,[1300, 635])
                     
     def play(self, player, phase, country, screen):
         if phase == "placement":
@@ -104,7 +104,7 @@ class Game():
         
         font = pygame.font.Font(None, 25)
         text = font.render("Add 1 Troop", True, (10, 10, 10))
-        textpos = text.get_rect(x=13, y=7)
+        textpos = text.get_rect(x=13, y=8)
         plusButton.blit(text, textpos)
         
         self.placementPlus=buttonObject(plusButton,[1150, 635])
@@ -115,7 +115,7 @@ class Game():
         
         font = pygame.font.Font(None, 25)
         text = font.render("Minus 1 Troop", True, (10, 10, 10))
-        textpos = text.get_rect(x=7, y=7)
+        textpos = text.get_rect(x=7, y=8)
         minusButton.blit(text, textpos)
         
         self.placementMinus=buttonObject(minusButton,[1300, 635])
