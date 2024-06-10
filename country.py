@@ -134,6 +134,8 @@ class Country():
         
         self.zoomLvl=1
         
+        self.addedTroops=0
+        
         self.__init__regions=self.regions
         self.__init__small=self.small
         self.__init__big=self.big

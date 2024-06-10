@@ -280,8 +280,7 @@ def makeGame(size, screen, window):
         
         screen.blit(fade, [400, 0])
         screen.blit(backArrow.image, backArrow.rect)
-        
-        
+                
         gameName.draw(screen)
         playerNumber.draw(screen)
         

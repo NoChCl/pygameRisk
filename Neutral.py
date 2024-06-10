@@ -10,6 +10,9 @@ class Neutral:
         self.name="__Neutral__"
         self.countrys[0].troops=2
         
+    def place(self):
+        pass
+        
     def attack(self):
         pass
     

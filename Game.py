@@ -6,6 +6,7 @@ except:
     from country import *
 from Game import *
 from infoScreen import *
+from actionScreen import *
 from Player import *
 from Neutral import *
 
@@ -21,7 +22,7 @@ class Game():
             count=0
             while len(countrys)>0:
                 count+=1
-                if count<=10:
+                if count<=12:
                     for player in self.players:
                         if len(countrys)==0:
                             break
@@ -53,10 +54,27 @@ class Game():
                     country.controled=player
                     countryObjects+=[country]
         players+=[None]
+        
+        plusButton=pygame.Surface([100,50])
+        plusButton.fill([255,255,255])
+        pygame.draw.rect(plusButton, (80,215,240), pygame.Rect(0,0,100,50), width=0, border_radius=25)
+        
+        font = pygame.font.Font(None, 25)
+        text = font.render("Add Troop", True, (10, 10, 10))
+        textpos = text.get_rect(x=7, y=15)
+        plusButton.blit(text, textpos)
+        
+        self.placementPlus=buttonObject(plusButton,[1150, 635])
+        #self.placementMinus=
                     
-    def play(self, player, phase):
+    def play(self, player, phase, country, screen):
         if phase == "placement":
-            pass
+            player.place()
+            if country in player.countrys:
+                placementScreen(country, player, screen)
+            else:
+                placementScreen(None, player, screen)
+            screen.blit(self.placementPlus.image, self.placementPlus.rect)
         elif phase == "attack":
             pass
         elif phase == "movement":
@@ -64,8 +82,37 @@ class Game():
         else:
             print("Error, phase"+phase+"is not recognised, valid phases are: placement, attack, and movement")
             quit()
+            
+    def rollDice():
+        return random.randint(1,6)
         
-    
+    def rebuild(self):
+        plusButton=pygame.Surface([100,50])
+        plusButton.fill([255,255,255])
+        pygame.draw.rect(plusButton, (80,215,240), pygame.Rect(0,0,100,50), width=0, border_radius=25)
+        
+        font = pygame.font.Font(None, 25)
+        text = font.render("Add Troop", True, (10, 10, 10))
+        textpos = text.get_rect(x=7, y=15)
+        plusButton.blit(text, textpos)
+        
+        self.placementPlus=buttonObject(plusButton,[1150, 635])
+        
+        
+        
+class buttonObject():
+    def __init__(self, image, pos):
+        self.image=image
+        self.rect=self.image.get_rect()
+        self.rect=self.rect.move(pos)
+        self.mask=pygame.mask.from_surface(image)
+        
+    def clicked(self, mousePos):
+        mouse=pygame.Surface([1,1])
+        mouseMask=pygame.mask.from_surface(mouse)
+        
+        if self.mask.overlap(mouseMask, (mousePos[0]-self.rect.x, mousePos[1]-self.rect.y)):
+            return True
     
         
         
@@ -146,6 +193,8 @@ def quitGame(game, countryObjects, gameName, zoom, screen, window, size):
     screen.blit(text, textpos)
     
     makeScreen(screen, window, size)
+    
+    game.placementPlus=None
     
     try:
         if zoom==0:

@@ -43,6 +43,7 @@ if selection[0]=="load":
     loadFromFile=pickle.load(open(gameName,"rb"))
     game=loadFromFile
     countryObjects=decode(game.countryObjects, screen,window, size)
+    game.rebuild()
 else:
     loadFromFile=getInfo(size, screen, window)
     countryObjects=decode(loadFromFile, screen,window, size)
@@ -258,18 +259,7 @@ while True:
             print("moved players")
 
     
-    game.play(currentPlayer, phase)
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     #put things on screen
     screen.fill([30,144,255])
     
@@ -277,6 +267,8 @@ while True:
     for country in countryObjects:
         country.blit(screen)
         
+        
+    game.play(currentPlayer, phase, selectedCountry, screen)
     updateScreen(selectedCountry, screen)
             
     if debug:
