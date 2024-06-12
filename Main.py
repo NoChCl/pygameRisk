@@ -196,7 +196,16 @@ while True:
     found=False
     
     #country select
-    if mousePos[0]>0 and mousePos[0]<size[0] and mousePos[1]>0 and mousePos[1]<size[1]:
+    if mousePos[0] <= 300 and mousePos[1] >= 540:
+        #is in info box
+        pass
+    elif mousePos[0] >= 1140 and mousePos[1] >= 540:
+        #is in action box
+        pass
+    elif mousePos[0]<0 or mousePos[0]>size[0] or mousePos[1]<0 or mousePos[1]>size[1]:
+        #is outside screen, do nothing
+        pass
+    elif mousePos[0]>0 and mousePos[0]<size[0] and mousePos[1]>0 and mousePos[1]<size[1]:
         if select and leftMouseDown:
             onCountry=False
             for country in countryObjects:
@@ -257,8 +266,6 @@ while True:
 
             currentPlayer=players[players.index(currentPlayer)+1]
             print("moved players")
-
-    
 
     #put things on screen
     screen.fill([30,144,255])
